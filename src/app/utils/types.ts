@@ -13,4 +13,7 @@ export type SearchResult = {
     rating?: number;
     priceRange?: string;
     score: number;
+    wantNum?: string;
+    wantNumSuffix?: string;
+    wantDesc?: string;
 };

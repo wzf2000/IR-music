@@ -14,28 +14,49 @@ import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import StarIcon from '@mui/icons-material/Star';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { pink, yellow } from '@mui/material/colors';
+
+import { SearchResult } from '../utils/types';
 
 type RentalCardProps = {
+  data: SearchResult;
   category: React.ReactNode;
-  image: string;
   liked?: boolean;
-  hot?: boolean;
   title: React.ReactNode;
-  artists?: string;
-  priceRange?: string;
-  city?: string;
-  address?: string;
-  lng?: number,
-  lat?: number,
-  date?: string;
-  rating?: number;
-  platform: string;
   handleOnCardClick?: (address: string, city: string, lng?: number, lat?: number) => void;
 };
 
 export default function RentalCard(props: RentalCardProps) {
-  const { category, title, artists = '群星', hot = false, liked = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {} } = props;
-  const [isLiked, setIsLiked] = React.useState(liked);
+  const { data, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {}, liked = false } = props;
+  const { category, title, artists = '群星', hot = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform } = data;
+  // const [isLiked, setIsLiked] = React.useState(liked);
+  let wantDesc: React.ReactNode | null = null;
+  if (data.wantDesc !== undefined) {
+    // 超过XX%同类演出
+    const pattern = new RegExp(/超过\d+%同类演出/);
+    // if matched, replace XX% with other color
+    if (pattern.test(data.wantDesc)) {
+      const percent = data.wantDesc.match(/\d+/);
+      if (percent !== null) {
+        wantDesc = (
+          <Typography level="body-md" sx={{ textAlign: 'left', fontWeight: 500, ml: 0.5 }}>
+            {' · 超过'}
+            <Typography level="body-md" sx={{ color: yellow[800], fontWeight: 700 }}>
+              {percent[0]}%
+            </Typography>
+            {'同类演出'}
+          </Typography>
+        );
+      }
+    } else {
+      wantDesc = (
+        <Typography level="body-md" sx={{ textAlign: 'left', fontWeight: 500, ml: 0.5 }}>
+          {' · ' + data.wantDesc}
+        </Typography>
+      );
+    }
+  }
   return (
     <Card
       variant="outlined"
@@ -172,6 +193,30 @@ export default function RentalCard(props: RentalCardProps) {
           >
             {rating == -1 ? "暂无评分" : rating.toFixed(1)}
           </Typography>
+          {
+            data.wantNum !== undefined ? (
+              <Typography level="title-md" startDecorator={<FavoriteIcon sx={{ color: pink[500] }} />} sx={{ textAlign: 'right', color: yellow[800], ml: 3, fontWeight: 700 }}>
+                {data.wantNum}
+              </Typography>
+            ) : null
+          }
+          {
+            data.wantNumSuffix !== undefined ? (
+              <Typography level="body-md" sx={{ textAlign: 'center', fontWeight: 500 }}>
+                {data.wantNumSuffix + '想看'}
+              </Typography>
+            ) : null
+          }
+          {
+            data.wantDesc !== undefined ? wantDesc : null
+          }
+          {/* {
+            wantText !== null ? (
+              <Typography level="body-xs" startDecorator={<FavoriteIcon sx={{ color: pink[500] }} />} sx={{ display: 'flex', flexGrow: 2, textAlign: 'center' }}>
+                {wantText}
+              </Typography>
+            ) : null
+          } */}
           <Typography level="title-lg" sx={{ flexGrow: 1, textAlign: 'right' }}>
             <strong>￥{priceRange}</strong>
           </Typography>

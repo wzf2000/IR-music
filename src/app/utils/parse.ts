@@ -1,5 +1,12 @@
 import { SearchResult } from "./types";
 
+const exists = (data: any) => {
+  if (data === undefined || data === null || data === "" || data === "nan") {
+    return false;
+  }
+  return true;
+}
+
 const parse_music = (data: any) => {
   let searchResultList: SearchResult[] = [];
   data.hits.hits.forEach((val: any) => {
@@ -95,20 +102,27 @@ export const parse = (data: any) => {
     if (searchResult.artists === "") {
       searchResult.artists = "群星";
     }
-    if (source.venue_name !== 'nan' && source.venue_name !== null && source.venue_info.venue_address !== 'nan' && source.venue_info.venue_address !== null) {
+    if (exists(source.venue_name) && exists(source.venue_info.venue_address)) {
       searchResult.address = source.venue_info.venue_address + " " + source.venue_name;
     }
-    if (source.venue_info.lng != 'nan' && source.venue_info.lng != null && source.venue_info.lat != 'nan' && source.venue_info.lat != null) {
+    if (exists(source.venue_info.lng) && exists(source.venue_info.lat)) {
       searchResult.lng = Number(source.venue_info.lng);
       searchResult.lat = Number(source.venue_info.lat);
     }
-    if (source.rating !== 'nan' && source.rating !== null) {
+    if (exists(source.rating)) {
       searchResult.rating = Number(source.rating);
     }
-    if (source.price === 'nan' || source.price === null) {
+    if (!exists(source.price)) {
       searchResult.priceRange = '价格待定';
     } else {
       searchResult.priceRange = source.price;
+    }
+    if (exists(source.wantVO.wantNumStr) && exists(source.wantVO.wantNumSuffix)) {
+      searchResult.wantNum = source.wantVO.wantNumStr;
+      searchResult.wantNumSuffix = source.wantVO.wantNumSuffix;
+    }
+    if (exists(source.wantVO.wantDesc)) {
+      searchResult.wantDesc = source.wantVO.wantDesc;
     }
     searchResultList.push(searchResult);
   });

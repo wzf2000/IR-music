@@ -166,20 +166,12 @@ export default function RentalDashboard() {
                 )
               ) : (
                 results.slice(currentPage * 5 - 5, currentPage * 5).map((val, ind) => {
-                  let { title, category, hot = false, image, artists = undefined, date = undefined, platform, city = undefined, address = undefined, lng = undefined, lat = undefined, rating = undefined, priceRange = undefined } = val;
+                  let { title, category } = val;
                   return (
                     <RentalCard
+                      data={val}
                       title={title}
                       category={category}
-                      hot={hot}
-                      image={image}
-                      artists={artists}
-                      date={date}
-                      platform={platform}
-                      city={city}
-                      address={address}
-                      rating={rating}
-                      priceRange={priceRange}
                       handleOnCardClick={handleOnCardClick}
                     />
                   );
