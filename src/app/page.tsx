@@ -32,12 +32,70 @@ export default function RentalDashboard() {
   let [lat, setLat] = React.useState<number | undefined>(undefined);
   let [results, setResults] = React.useState<SearchResult[]>([]);
   let [searched, setSearched] = React.useState(false);
+  let [currentPage, setCurrentPage] = React.useState(1);
+  let [totalPage, setTotalPage] = React.useState(1);
+  let [order, setOrder] = React.useState('Relevance');
   const handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {
     setAddress(address);
     setCity(city);
     setLng(lng);
     setLat(lat);
+  };
+  const sortByOrder = (order: string, results: SearchResult[]) => {
+    switch (order) {
+      case "Relevance":
+        return results.sort((a, b) => {
+          return b.score - a.score;
+        });
+        break;
+      case "Price":
+        return results.sort((a, b) => {
+          const getLowPrice = (priceRange: string | undefined) => {
+            if (priceRange === undefined || priceRange === '价格待定') return 10000000;
+            let price = priceRange.split('-');
+            // drop the '¥' sign
+            return parseFloat(price[0].slice(1));
+          };
+          let priceA = getLowPrice(a.priceRange), priceB = getLowPrice(b.priceRange);
+          if (priceA === priceB) {
+            return b.score - a.score;
+          } else {
+            return priceA - priceB;
+          }
+        });
+        break;
+      case "Date":
+        return results.sort((a, b) => {
+          const getLeftDate = (date: string | undefined) => {
+            if (date === undefined) return new Date('2070-01-01');
+            // get YYYY.MM.DD
+            return new Date(date.slice(0, 10));
+          }
+          let dateA = getLeftDate(a.date), dateB = getLeftDate(b.date);
+          if (dateA === dateB) {
+            return b.score - a.score;
+          } else {
+            return dateA.getTime() - dateB.getTime();
+          }
+        });
+        break;
+      case "Rating":
+        return results.sort((a, b) => {
+          let ratingA = a.rating === undefined ? 0 : a.rating, ratingB = b.rating === undefined ? 0 : b.rating;
+          if (ratingA === ratingB) {
+            return b.score - a.score;
+          } else {
+            return ratingB - ratingA;
+          }
+        });
+        break;
+    }
+    return results;
   }
+  const changeOrder = (order: string) => {
+    setResults(sortByOrder(order, results));
+    setOrder(order);
+  };
   return (
     <JoyCssVarsProvider theme={{ [JOY_THEME_ID]: joyTheme }} disableTransitionOnChange>
     <MaterialCssVarsProvider>
@@ -72,7 +130,9 @@ export default function RentalDashboard() {
                   if (response) {
                     console.log('response[0]:', response.data.hits.hits[0]);
                     let searchResultList: SearchResult[] = parse(response.data);
-                    setResults(searchResultList);
+                    setResults(sortByOrder(order, searchResultList));
+                    setTotalPage(Math.ceil(searchResultList.length / 5));
+                    setCurrentPage(1);
                   }
                   setSearched(true);
                 });
@@ -92,7 +152,7 @@ export default function RentalDashboard() {
           <MapComponent address={address} city={city} lng={lng} lat={lat} />
         </Box>
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
-          <Filters />
+          <Filters changeOrder={changeOrder} order={order} />
           <Stack spacing={2} sx={{ overflow: 'auto' }}>
             {
               results.length === 0 ? (
@@ -102,7 +162,7 @@ export default function RentalDashboard() {
                   <p>搜索你想要知道的音乐演出</p>
                 )
               ) : (
-                results.map((val, ind) => {
+                results.slice(currentPage * 5 - 5, currentPage * 5).map((val, ind) => {
                   let { title, category, hot = false, image, artists = undefined, date = undefined, platform, city = undefined, address = undefined, lng = undefined, lat = undefined, rating = undefined, priceRange = undefined } = val;
                   return (
                     <RentalCard
@@ -125,7 +185,14 @@ export default function RentalDashboard() {
             }
           </Stack>
         </Stack>
-        <Pagination />
+        <Pagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onPageChange={(page) => {
+            console.log('page changed to', page);
+            setCurrentPage(page);
+          }}
+        />
       </Box>
     </MaterialCssVarsProvider>
     </JoyCssVarsProvider>

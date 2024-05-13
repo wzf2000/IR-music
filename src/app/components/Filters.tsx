@@ -13,11 +13,17 @@ import FilterAltOutlined from '@mui/icons-material/FilterAltOutlined';
 import CountrySelector from './CountrySelector';
 import OrderSelector from './OrderSelector';
 
+type FiltersProps = {
+  changeOrder: (order: string) => void;
+  order: string;
+};
+
 function valueText(value: number) {
   return `$${value.toLocaleString('en-US')}`;
 }
 
-export default function Filters() {
+export default function Filters(props: FiltersProps) {
+  let { changeOrder, order } = props;
   const [open, setOpen] = React.useState(false);
   return (
     <Stack
@@ -36,7 +42,7 @@ export default function Filters() {
       >
         Filters
       </Button>
-      <OrderSelector />
+      <OrderSelector changeOrder={changeOrder} order={order} />
       <Drawer open={open} onClose={() => setOpen(false)}>
         <Stack useFlexGap spacing={3} sx={{ p: 2 }}>
           <DialogTitle>Filters</DialogTitle>

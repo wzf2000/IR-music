@@ -16,6 +16,7 @@ export const parse = (data: any) => {
       date: item.staticData.itemBase.showTime,
       city: item.staticData.itemBase.cityName,
       hot: item.staticData.itemBase.isHotProject == 'true',
+      score: val._score,
     };
     if ("dynamicData" in item && "artists" in item.dynamicData) {
       let artists = item.dynamicData.artists;

@@ -161,7 +161,7 @@ export default function RentalCard(props: RentalCardProps) {
               <React.Fragment>
                 <Rating
                   name="text-feedback"
-                  value={rating == -1 ? 5 : rating / 2}
+                  value={rating == -1 ? 0 : rating / 2}
                   precision={0.1}
                   readOnly
                   emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit" />}

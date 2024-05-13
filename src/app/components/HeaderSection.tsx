@@ -9,7 +9,7 @@ export default function HeaderSection() {
         <Typography level="h2">音乐演出检索</Typography>
       </Stack>
       <Typography level="body-md" color="neutral">
-        一键搜索你想去的演唱会~
+        一键搜索你想去的演唱会、音乐节~
       </Typography>
     </Stack>
   );

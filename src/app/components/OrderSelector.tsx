@@ -5,7 +5,19 @@ import MenuItem from '@mui/joy/MenuItem';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Dropdown from '@mui/joy/Dropdown';
 
-export default function OrderSelector() {
+type OrderSelectorProps = {
+  changeOrder: (order: string) => void;
+  order: string;
+};
+
+export default function OrderSelector(props: OrderSelectorProps) {
+  let { changeOrder, order } = props;
+  let handleOrderChange = (newOrder: string) => () => {
+    if (typeof newOrder === 'string') {
+      changeOrder(newOrder);
+    }
+  }
+  console.log(order);
   return (
     <Dropdown>
       <MenuButton
@@ -17,9 +29,21 @@ export default function OrderSelector() {
         Order by
       </MenuButton>
       <Menu sx={{ minWidth: 120 }}>
-        <MenuItem>Price</MenuItem>
-        <MenuItem>Date</MenuItem>
-        <MenuItem>Rating</MenuItem>
+        <MenuItem
+          {...(order === 'Relevance' && { selected: true, variant: 'soft' })}
+          onClick={handleOrderChange('Relevance')}
+        >
+          Relevance
+        </MenuItem>
+        <MenuItem selected={order === 'Price'} onClick={handleOrderChange('Price')}>
+          Price
+        </MenuItem>
+        <MenuItem selected={order === 'Date'} onClick={handleOrderChange('Date')}>
+          Date
+        </MenuItem>
+        <MenuItem selected={order === 'Rating'} onClick={handleOrderChange('Rating')}>
+          Rating
+        </MenuItem>
       </Menu>
     </Dropdown>
   );

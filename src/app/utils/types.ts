@@ -12,4 +12,5 @@ export type SearchResult = {
     lat?: number;
     rating?: number;
     priceRange?: string;
+    score: number;
 };

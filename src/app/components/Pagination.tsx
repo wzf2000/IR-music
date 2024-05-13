@@ -6,7 +6,26 @@ import Typography from '@mui/joy/Typography';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
-export default function Pagination() {
+type PaginationProps = {
+  currentPage: number;
+  totalPage: number;
+  onPageChange: (page: number) => void;
+};
+
+export default function Pagination(props: PaginationProps) {
+  let { currentPage, totalPage, onPageChange } = props;
+  let pageList = [];
+  if (totalPage <= 7) {
+    pageList = Array.from({ length: totalPage }, (_, i) => (i + 1).toString());
+  } else {
+    if (currentPage < 4) {
+      pageList = ['1', '2', '3', '4', '…', totalPage.toString()];
+    } else if (currentPage > totalPage - 3) {
+      pageList = ['1', '…', (totalPage - 3).toString(), (totalPage - 2).toString(), (totalPage - 1).toString(), totalPage.toString()];
+    } else {
+      pageList = ['1', '…', (currentPage - 1).toString(), currentPage.toString(), (currentPage + 1).toString(), '…', totalPage.toString()];
+    }
+  }
   return (
     <div>
       <Box
@@ -18,25 +37,34 @@ export default function Pagination() {
           my: 1,
         }}
       >
-        <IconButton
-          aria-label="previous page"
-          variant="outlined"
-          color="neutral"
-          size="sm"
-        >
-          <ArrowBackIosRoundedIcon />
-        </IconButton>
+        {
+          currentPage > 1 ? (
+            <IconButton
+              aria-label="previous page"
+              variant="outlined"
+              color="neutral"
+              size="sm"
+            >
+              <ArrowBackIosRoundedIcon />
+            </IconButton>
+          ) : null
+        }
         <Typography level="body-sm" mx="auto">
-          Page 1 of 10
+          Page {currentPage} of {totalPage}
         </Typography>
-        <IconButton
-          aria-label="next page"
-          variant="outlined"
-          color="neutral"
-          size="sm"
-        >
-          <ArrowForwardIosRoundedIcon />
-        </IconButton>
+        {
+          currentPage < totalPage ? (
+            <IconButton
+              aria-label="next page"
+              variant="outlined"
+              color="neutral"
+              size="sm"
+            >
+              <ArrowForwardIosRoundedIcon />
+            </IconButton>
+          ) : null
+        }
+        
       </Box>
       <Box
         className="Pagination-laptopUp"
@@ -51,36 +79,51 @@ export default function Pagination() {
           my: 2,
         }}
       >
-        <Button
-          size="sm"
-          variant="plain"
-          color="neutral"
-          startDecorator={<ArrowBackIosRoundedIcon />}
-        >
-          Previous
-        </Button>
+        {
+          currentPage > 1 ? (
+            <Button
+              size="sm"
+              variant="plain"
+              color="neutral"
+              startDecorator={<ArrowBackIosRoundedIcon />}
+              onClick={() => onPageChange(currentPage - 1)}
+            >
+              Previous
+            </Button>
+          ) : null
+        }
 
         <Box sx={{ flex: 1 }} />
-        {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
+        {pageList.map((page) => (
           <IconButton
             key={page}
             size="sm"
             variant={Number(page) ? 'plain' : 'soft'}
-            color="neutral"
+            disabled={!Number(page)}
+            color={Number(page) && Number(page) === currentPage ? 'neutral' : 'primary'}
+            onClick={() => {
+              if (Number(page) === currentPage) return;
+              onPageChange(Number(page));
+            }}
           >
             {page}
           </IconButton>
         ))}
         <Box sx={{ flex: 1 }} />
 
-        <Button
-          size="sm"
-          variant="plain"
-          color="neutral"
-          endDecorator={<ArrowForwardIosRoundedIcon />}
-        >
-          Next
-        </Button>
+        {
+          currentPage < totalPage ? (
+            <Button
+              size="sm"
+              variant="plain"
+              color="neutral"
+              endDecorator={<ArrowForwardIosRoundedIcon />}
+              onClick={() => onPageChange(currentPage + 1)}
+            >
+              Next
+            </Button>
+          ) : null
+        }
       </Box>
     </div>
   );
