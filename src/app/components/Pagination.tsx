@@ -94,9 +94,9 @@ export default function Pagination(props: PaginationProps) {
         }
 
         <Box sx={{ flex: 1 }} />
-        {pageList.map((page) => (
+        {pageList.map((page: string, index: number) => (
           <IconButton
-            key={page}
+            key={index}
             size="sm"
             variant={Number(page) ? 'plain' : 'soft'}
             disabled={!Number(page)}

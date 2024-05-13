@@ -127,7 +127,11 @@ export default function RentalDashboard() {
                 console.log('searching for', query);
                 search(query).then((response) => {
                   if (response) {
-                    console.log('response[0]:', response.data.hits.hits[0]);
+                    let scores: number[] = [];
+                    response.data.hits.hits.forEach((val: any) => {
+                      scores.push(val._score);
+                    })
+                    console.log('scores:', scores);
                     let searchResultList: SearchResult[] = parse(response.data);
                     setResults(sortByOrder(order, searchResultList));
                     setTotalPage(Math.ceil(searchResultList.length / 5));
