@@ -1,8 +1,12 @@
 'use client';
 import * as React from 'react';
-import { useEffect } from "react";
 import Script from 'next/script';
-import { CssVarsProvider } from '@mui/joy/styles';
+import {
+  extendTheme as joyExtendTheme,
+  CssVarsProvider as JoyCssVarsProvider,
+  THEME_ID as JOY_THEME_ID,
+} from '@mui/joy/styles';
+import { Experimental_CssVarsProvider as MaterialCssVarsProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Stack from '@mui/joy/Stack';
@@ -15,9 +19,29 @@ import Filters from './components/Filters';
 import Pagination from './components/Pagination';
 import MapComponent from './components/MapContainer';
 
+import { search } from './utils/network';
+import { SearchResult } from './utils/types';
+import { parse } from './utils/parse';
+
+const joyTheme = joyExtendTheme();
+
 export default function RentalDashboard() {
+  let [city, setCity] = React.useState('');
+  let [address, setAddress] = React.useState('');
+  let [lng, setLng] = React.useState<number | undefined>(undefined);
+  let [lat, setLat] = React.useState<number | undefined>(undefined);
+  let [results, setResults] = React.useState<SearchResult[]>([]);
+  let [searched, setSearched] = React.useState(false);
+  const handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {
+    setAddress(address);
+    setCity(city);
+    setLng(lng);
+    setLat(lat);
+  }
   return (
-    <CssVarsProvider disableTransitionOnChange>
+    <JoyCssVarsProvider theme={{ [JOY_THEME_ID]: joyTheme }} disableTransitionOnChange>
+    <MaterialCssVarsProvider>
+      <CssBaseline enableColorScheme />
       <Script src="https://webapi.amap.com/maps?v=1.4.15&key=c9020fcf56e3d78809895825c68f439e&callback=init"></Script>
       <CssBaseline />
       <NavBar />
@@ -40,44 +64,70 @@ export default function RentalDashboard() {
           }}
         >
           <HeaderSection />
-          <Search />
+          <Search
+            onSearch={
+              (query: string) => {
+                console.log('searching for', query);
+                search(query).then((response) => {
+                  if (response) {
+                    console.log('response[0]:', response.data.hits.hits[0]);
+                    let searchResultList: SearchResult[] = parse(response.data);
+                    setResults(searchResultList);
+                  }
+                  setSearched(true);
+                });
+              }
+            }
+            count={searched ? results.length : undefined}
+          />
         </Stack>
         <Box
           sx={{
             gridRow: 'span 3',
             display: { xs: 'none', md: 'flex' },
+            backgroundColor: 'background.level1',
+            backgroundSize: 'cover',
           }}
         >
-          <MapComponent />
+          <MapComponent address={address} city={city} lng={lng} lat={lat} />
         </Box>
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
           <Filters />
           <Stack spacing={2} sx={{ overflow: 'auto' }}>
-            <RentalCard
-              title="【大连】邓紫棋 I AM GLORIA 世界巡回演唱会-大连站"
-              category="演唱会"
-              hot
-              image="https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i2/2251059038/O1CN01cOl2XM2GdSaxhKZvg_!!2251059038.jpg"
-              artists='邓紫棋'
-              platform="大麦"
-              place="大连市"
-              date="时间待定"
-              rating={9.4}
-            />
-            <RentalCard
-              title="【珠海】2024珠海草莓音乐节"
-              category="音乐节"
-              image="https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i3/2251059038/O1CN01IlV8yg2GdSaDkfA82_!!2251059038.jpg"
-              artists='痛仰乐队，凤凰传奇等'
-              date="2024.05.18-05.19"
-              priceRange="¥328-¥698"
-              platform="大麦"
-              place="珠海市"
-            />
+            {
+              results.length === 0 ? (
+                searched ? (
+                  <p>无符合的搜索结果</p>
+                ) : (
+                  <p>搜索你想要知道的音乐演出</p>
+                )
+              ) : (
+                results.map((val, ind) => {
+                  let { title, category, hot = false, image, artists = undefined, date = undefined, platform, city = undefined, address = undefined, lng = undefined, lat = undefined, rating = undefined, priceRange = undefined } = val;
+                  return (
+                    <RentalCard
+                      title={title}
+                      category={category}
+                      hot={hot}
+                      image={image}
+                      artists={artists}
+                      date={date}
+                      platform={platform}
+                      city={city}
+                      address={address}
+                      rating={rating}
+                      priceRange={priceRange}
+                      handleOnCardClick={handleOnCardClick}
+                    />
+                  );
+                })
+              )
+            }
           </Stack>
         </Stack>
         <Pagination />
       </Box>
-    </CssVarsProvider>
+    </MaterialCssVarsProvider>
+    </JoyCssVarsProvider>
   );
 }
