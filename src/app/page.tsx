@@ -53,8 +53,7 @@ export default function RentalDashboard() {
           const getLowPrice = (priceRange: string | undefined) => {
             if (priceRange === undefined || priceRange === '价格待定') return 10000000;
             let price = priceRange.split('-');
-            // drop the '¥' sign
-            return parseFloat(price[0].slice(1));
+            return parseFloat(price[0]);
           };
           let priceA = getLowPrice(a.priceRange), priceB = getLowPrice(b.priceRange);
           if (priceA === priceB) {

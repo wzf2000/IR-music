@@ -33,6 +33,6 @@ const request = async (
 }
 
 export const search = async (query: string, size: number | null = null) => {
-    const response = size == null ? await request(esNetwork, 'GET', `/es/music/_search?q=${query}`) : await request(esNetwork, 'GET', `/es/music/_search?q=${query}&size=${size}`);
+    const response = size == null ? await request(esNetwork, 'GET', `/es/music_demo/_search?q=${query}`) : await request(esNetwork, 'GET', `/es/music_demo/_search?q=${query}&size=${size}`);
     return response;
 }

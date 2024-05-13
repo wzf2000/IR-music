@@ -34,7 +34,7 @@ type RentalCardProps = {
 };
 
 export default function RentalCard(props: RentalCardProps) {
-  const { category, title, artists = '群星', hot = false, liked = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '日期未确定', rating = -1, platform, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {} } = props;
+  const { category, title, artists = '群星', hot = false, liked = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {} } = props;
   const [isLiked, setIsLiked] = React.useState(liked);
   return (
     <Card
@@ -173,7 +173,7 @@ export default function RentalCard(props: RentalCardProps) {
             {rating == -1 ? "暂无评分" : rating.toFixed(1)}
           </Typography>
           <Typography level="title-lg" sx={{ flexGrow: 1, textAlign: 'right' }}>
-            <strong>{priceRange}</strong>
+            <strong>￥{priceRange}</strong>
           </Typography>
         </Stack>
       </CardContent>

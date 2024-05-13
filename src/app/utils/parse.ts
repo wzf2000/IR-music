@@ -1,12 +1,11 @@
 import { SearchResult } from "./types";
 
-export const parse = (data: any) => {
+const parse_music = (data: any) => {
   let searchResultList: SearchResult[] = [];
   data.hits.hits.forEach((val: any) => {
     let platform = val._source.platform;
     let source = val._source.detailViewComponentMap;
     let item = source.item;
-    console.log();
     let searchResult: SearchResult = {
       platform: platform,
       title: item.staticData.itemBase.itemName,
@@ -64,6 +63,52 @@ export const parse = (data: any) => {
     }
     if ("item" in item && "priceRange" in item.item) {
       searchResult.priceRange = item.item.priceRange;
+    }
+    searchResultList.push(searchResult);
+  });
+  return searchResultList;
+};
+
+export const parse = (data: any) => {
+  let searchResultList: SearchResult[] = [];
+  data.hits.hits.forEach((val: any) => {
+    let source = val._source;
+    let platform = source.platform;
+    let searchResult: SearchResult = {
+      platform: platform,
+      title: source.project_name,
+      category: source.category_name,
+      image: source.project_imgs[0],
+      date: source.show_time,
+      city: source.city_name,
+      hot: source.isHotProject == 'true',
+      score: val._score,
+    };
+    let artists = source.artists;
+    // get the first 3 artists or less
+    let moreThanThree = artists.length > 3;
+    artists = artists.slice(0, 3);
+    searchResult.artists = artists.join("，");
+    if (moreThanThree) {
+      searchResult.artists += "等";
+    }
+    if (searchResult.artists === "") {
+      searchResult.artists = "群星";
+    }
+    if (source.venue_name !== 'nan' && source.venue_name !== null && source.venue_info.venue_address !== 'nan' && source.venue_info.venue_address !== null) {
+      searchResult.address = source.venue_info.venue_address + " " + source.venue_name;
+    }
+    if (source.venue_info.lng != 'nan' && source.venue_info.lng != null && source.venue_info.lat != 'nan' && source.venue_info.lat != null) {
+      searchResult.lng = Number(source.venue_info.lng);
+      searchResult.lat = Number(source.venue_info.lat);
+    }
+    if (source.rating !== 'nan' && source.rating !== null) {
+      searchResult.rating = Number(source.rating);
+    }
+    if (source.price === 'nan' || source.price === null) {
+      searchResult.priceRange = '价格待定';
+    } else {
+      searchResult.priceRange = source.price;
     }
     searchResultList.push(searchResult);
   });
