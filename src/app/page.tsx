@@ -12,7 +12,7 @@ import Box from '@mui/joy/Box';
 import Stack from '@mui/joy/Stack';
 
 import NavBar from './components/NavBar';
-import RentalCard from './components/RentalCard';
+import ConcertCard from './components/ConcertCard';
 import HeaderSection from './components/HeaderSection';
 import Search from './components/Search';
 import Filters from './components/Filters';
@@ -168,7 +168,7 @@ export default function RentalDashboard() {
                 results.slice(currentPage * 5 - 5, currentPage * 5).map((val, ind) => {
                   let { title, category } = val;
                   return (
-                    <RentalCard
+                    <ConcertCard
                       key={ind}
                       data={val}
                       title={title}

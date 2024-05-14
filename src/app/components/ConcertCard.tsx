@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
 import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
@@ -23,7 +22,7 @@ import { pink, yellow } from '@mui/material/colors';
 
 import { SearchResult } from '../utils/types';
 
-type RentalCardProps = {
+type ConcertCardProps = {
   data: SearchResult;
   category: React.ReactNode;
   liked?: boolean;
@@ -31,7 +30,7 @@ type RentalCardProps = {
   handleOnCardClick?: (address: string, city: string, lng?: number, lat?: number) => void;
 };
 
-export default function RentalCard(props: RentalCardProps) {
+export default function ConcertCard(props: ConcertCardProps) {
   const { category, title, data, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {}, liked = false } = props;
   const { artists = '群星', hot = false, generalAgent = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform } = data;
   // const [isLiked, setIsLiked] = React.useState(liked);
