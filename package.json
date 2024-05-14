@@ -21,6 +21,7 @@
     "@mui/joy": "^5.0.0-beta.36",
     "@mui/material": "^5.15.17",
     "async_hooks": "^1.0.0",
+    "axios": "^1.6.8",
     "fs": "^0.0.1-security",
     "next": "14.2.3",
     "punycode": "^2.3.1",
