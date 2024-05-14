@@ -14,14 +14,19 @@ export default function MapContainer(props) {
   let stylesArray = [
     {
       icon: { //图标样式
-        img: "//vdata.amap.com/icons/b18/1/2.png",
+        img: "/marker.svg", //图片地址
         size: [16, 16], //图标的原始大小
         anchor: "bottom-center", //锚点位置
         fitZoom: 14, //最合适的级别 在此级别显示为图标原始大小
         scaleFactor: 2, //地图放大一级的缩放比例系数 
         maxScale: 2, //图片的最大放大比例，随着地图放大图标会跟着放大，最大为2
         minScale: 1, //图片的最小缩小比例，随着地图缩小图标会跟着缩小，最小为1
-      }
+      },
+      label: {
+        content: address.split(' ').slice(-1),
+        position: "MR",
+        minZoom: 15,
+      },
     }
   ];
 
