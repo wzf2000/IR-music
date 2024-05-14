@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import AspectRatio from '@mui/joy/AspectRatio';
+import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
@@ -129,116 +130,141 @@ export default function RentalCard(props: RentalCardProps) {
       <CardContent>
         <Stack
           spacing={1}
-          direction="column"
+          direction="row"
           justifyContent="space-between"
           alignItems="flex-start"
           width="100%"
         >
-          {/* <div> */}
-            <Stack spacing={1} direction="row" sx={{ mt: 'auto', width: '100%', display: 'flex' }}>
-              <Typography level="body-sm">{category}</Typography>
+          <Stack
+            spacing={1}
+            direction="column"
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
+            <Stack
+              spacing={1}
+              direction="column"
+              justifyContent="space-between"
+              alignItems="flex-start"
+            >
+              {/* <div> */}
+                <Stack spacing={1} direction="row" sx={{ mt: 'auto', width: '100%', display: 'flex' }}>
+                  <Typography level="body-sm">{category}</Typography>
+                  {
+                    generalAgent && (
+                      <Chip variant="outlined" color="primary" size="sm" startDecorator={<SupportAgentIcon />} sx={{ color: 'text.secondary' }}>
+                        总票代
+                      </Chip>
+                    )
+                  }
+                  {/* <Button size='sm' onClick={() => {
+                    console.log('click button');
+                  }} sx={{ ml: 'auto !important' }} >
+                    详情
+                  </Button> */}
+                </Stack>
+                <Typography level="title-md">
+                  <Link
+                    // overlay
+                    underline="none"
+                    onClick={() => handleOnCardClick(address, city, lng, lat)}
+                    sx={{ color: 'text.primary' }}
+                  >
+                    {title}
+                  </Link>
+                </Typography>
+              {/* </div> */}
+              {/* <IconButton
+                variant="plain"
+                size="sm"
+                color={isLiked ? 'danger' : 'neutral'}
+                onClick={() => setIsLiked((prev) => !prev)}
+                sx={{
+                  display: { xs: 'none', sm: 'flex' },
+                  borderRadius: '50%',
+                }}
+              >
+                <FavoriteRoundedIcon />
+              </IconButton> */}
+            </Stack>
+            <Stack
+              spacing="0.25rem 1rem"
+              direction="row"
+              useFlexGap
+              flexWrap="wrap"
+              sx={{ my: 0.25, width: '100%' }}
+            >
+              <Typography level="body-xs" startDecorator={<VerifiedIcon />}>
+                {artists}
+              </Typography>
+              <Typography level="body-xs" startDecorator={<FmdGoodRoundedIcon />}>
+                {city}
+              </Typography>
+              <Typography level="body-xs" startDecorator={<EventAvailableIcon />}>
+                {date}
+              </Typography>
+              <Typography level="body-xs" startDecorator={<ConfirmationNumberIcon />}>
+                {platform}
+              </Typography>
+            </Stack>
+            <Stack direction="row" sx={{ mt: 'auto', width: '100%' }}>
+              <Typography
+                level="title-sm"
+                startDecorator={
+                  <React.Fragment>
+                    <Rating
+                      name="text-feedback"
+                      value={rating == -1 ? 0 : rating / 2}
+                      precision={0.1}
+                      readOnly
+                      emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit" />}
+                    />
+                  </React.Fragment>
+                }
+                sx={{ display: 'flex', gap: 1 }}
+              >
+                {rating == -1 ? "暂无评分" : rating.toFixed(1)}
+              </Typography>
               {
-                generalAgent && (
-                  <Chip variant="outlined" color="primary" size="sm" startDecorator={<SupportAgentIcon />} sx={{ color: 'text.secondary' }}>
-                    总票代
-                  </Chip>
+                data.wantNum !== undefined && (
+                  <Typography level="title-md" startDecorator={<FavoriteIcon sx={{ color: pink[500] }} />} sx={{ textAlign: 'right', color: yellow[800], ml: 3, fontWeight: 700 }}>
+                    {data.wantNum}
+                  </Typography>
                 )
               }
-              <Button size='sm' onClick={() => {
-                console.log('click button');
-              }} sx={{ ml: 'auto !important' }} >
-                详情
-              </Button>
+              {
+                data.wantNumSuffix !== undefined && (
+                  <Typography level="body-md" sx={{ textAlign: 'center', fontWeight: 500 }}>
+                    {data.wantNumSuffix + '想看'}
+                  </Typography>
+                )
+              }
+              {
+                data.wantDesc !== undefined && wantDesc
+              }
             </Stack>
-            <Typography level="title-md">
-              <Link
-                // overlay
-                underline="none"
-                onClick={() => handleOnCardClick(address, city, lng, lat)}
-                sx={{ color: 'text.primary' }}
-              >
-                {title}
-              </Link>
+          </Stack>
+          <Stack
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+            alignItems="flex-end"
+            height="100%"
+          >
+            <Button size='sm' onClick={() => {
+              console.log('click detail button');
+            }} >
+              详情
+            </Button>
+            <Button size='sm' onClick={() => {
+              console.log('click platform button');
+            }} >
+              {platform}
+            </Button>
+            <Typography level="title-lg" sx={{ textAlign: 'right' }}>
+              <strong>￥{priceRange}</strong>
             </Typography>
-          {/* </div> */}
-          {/* <IconButton
-            variant="plain"
-            size="sm"
-            color={isLiked ? 'danger' : 'neutral'}
-            onClick={() => setIsLiked((prev) => !prev)}
-            sx={{
-              display: { xs: 'none', sm: 'flex' },
-              borderRadius: '50%',
-            }}
-          >
-            <FavoriteRoundedIcon />
-          </IconButton> */}
-        </Stack>
-        <Stack
-          spacing="0.25rem 1rem"
-          direction="row"
-          useFlexGap
-          flexWrap="wrap"
-          sx={{ my: 0.25 }}
-        >
-          <Typography level="body-xs" startDecorator={<VerifiedIcon />}>
-            {artists}
-          </Typography>
-          <Typography level="body-xs" startDecorator={<FmdGoodRoundedIcon />}>
-            {city}
-          </Typography>
-          <Typography level="body-xs" startDecorator={<EventAvailableIcon />}>
-            {date}
-          </Typography>
-          <Typography level="body-xs" startDecorator={<ConfirmationNumberIcon />}>
-            {platform}
-          </Typography>
-        </Stack>
-        <Stack direction="row" sx={{ mt: 'auto' }}>
-          <Typography
-            level="title-sm"
-            startDecorator={
-              <React.Fragment>
-                <Rating
-                  name="text-feedback"
-                  value={rating == -1 ? 0 : rating / 2}
-                  precision={0.1}
-                  readOnly
-                  emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit" />}
-                />
-              </React.Fragment>
-            }
-            sx={{ display: 'flex', gap: 1 }}
-          >
-            {rating == -1 ? "暂无评分" : rating.toFixed(1)}
-          </Typography>
-          {
-            data.wantNum !== undefined && (
-              <Typography level="title-md" startDecorator={<FavoriteIcon sx={{ color: pink[500] }} />} sx={{ textAlign: 'right', color: yellow[800], ml: 3, fontWeight: 700 }}>
-                {data.wantNum}
-              </Typography>
-            )
-          }
-          {
-            data.wantNumSuffix !== undefined && (
-              <Typography level="body-md" sx={{ textAlign: 'center', fontWeight: 500 }}>
-                {data.wantNumSuffix + '想看'}
-              </Typography>
-            )
-          }
-          {
-            data.wantDesc !== undefined && wantDesc
-          }
-          {/* {
-            wantText !== null ? (
-              <Typography level="body-xs" startDecorator={<FavoriteIcon sx={{ color: pink[500] }} />} sx={{ display: 'flex', flexGrow: 2, textAlign: 'center' }}>
-                {wantText}
-              </Typography>
-            ) : null
-          } */}
-          <Typography level="title-lg" sx={{ flexGrow: 1, textAlign: 'right' }}>
-            <strong>￥{priceRange}</strong>
-          </Typography>
+          </Stack>
         </Stack>
       </CardContent>
     </Card>
