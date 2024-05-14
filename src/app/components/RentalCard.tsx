@@ -15,6 +15,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { pink, yellow } from '@mui/material/colors';
 
 import { SearchResult } from '../utils/types';
@@ -28,8 +29,8 @@ type RentalCardProps = {
 };
 
 export default function RentalCard(props: RentalCardProps) {
-  const { data, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {}, liked = false } = props;
-  const { category, title, artists = '群星', hot = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform } = data;
+  const { category, title, data, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {}, liked = false } = props;
+  const { artists = '群星', hot = false, generalAgent = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform } = data;
   // const [isLiked, setIsLiked] = React.useState(liked);
   let wantDesc: React.ReactNode | null = null;
   if (data.wantDesc !== undefined) {
@@ -130,7 +131,16 @@ export default function RentalCard(props: RentalCardProps) {
           alignItems="flex-start"
         >
           <div>
-            <Typography level="body-sm">{category}</Typography>
+            <Stack spacing={1} direction="row" sx={{ mt: 'auto' }}>
+              <Typography level="body-sm">{category}</Typography>
+              {
+                generalAgent && (
+                  <Chip variant="outlined" color="primary" size="md" startDecorator={<SupportAgentIcon />} sx={{ color: 'text.secondary' }}>
+                    总票代
+                  </Chip>
+                )
+              }
+            </Stack>
             <Typography level="title-md">
               <Link
                 overlay
@@ -194,21 +204,21 @@ export default function RentalCard(props: RentalCardProps) {
             {rating == -1 ? "暂无评分" : rating.toFixed(1)}
           </Typography>
           {
-            data.wantNum !== undefined ? (
+            data.wantNum !== undefined && (
               <Typography level="title-md" startDecorator={<FavoriteIcon sx={{ color: pink[500] }} />} sx={{ textAlign: 'right', color: yellow[800], ml: 3, fontWeight: 700 }}>
                 {data.wantNum}
               </Typography>
-            ) : null
+            )
           }
           {
-            data.wantNumSuffix !== undefined ? (
+            data.wantNumSuffix !== undefined && (
               <Typography level="body-md" sx={{ textAlign: 'center', fontWeight: 500 }}>
                 {data.wantNumSuffix + '想看'}
               </Typography>
-            ) : null
+            )
           }
           {
-            data.wantDesc !== undefined ? wantDesc : null
+            data.wantDesc !== undefined && wantDesc
           }
           {/* {
             wantText !== null ? (

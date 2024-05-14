@@ -89,6 +89,7 @@ export const parse = (data: any) => {
       date: source.show_time,
       city: source.city_name,
       hot: source.isHotProject == 'true',
+      generalAgent: source.isGeneralAgent == 'true',
       score: val._score,
     };
     let artists = source.artists;

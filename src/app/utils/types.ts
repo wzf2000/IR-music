@@ -2,6 +2,7 @@ export type SearchResult = {
     title: string;
     category: string;
     hot?: boolean;
+    generalAgent?: boolean;
     image: string;
     artists?: string;
     date?: string;
