@@ -28,12 +28,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'p0.meituan.net',
-                port: '',
-            },
-            {
-                protocol: 'https',
-                hostname: 'p1.meituan.net',
+                hostname: '**.meituan.net',
                 port: '',
             },
             {
@@ -58,17 +53,17 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'bg.piaoxingqiu.cn',
-                port: '',
-            },
-            {
-                protocol: 'https',
-                hostname: 'pxqsellerbff.piaoxingqiu.cn',
+                hostname: '**.piaoxingqiu.cn',
                 port: '',
             },
             {
                 protocol: 'https',
                 hostname: 's2.showstart.com',
+                port: '',
+            },
+            {
+                protocol: 'https',
+                hostname: '**.livelab.com.cn',
                 port: '',
             },
         ],
