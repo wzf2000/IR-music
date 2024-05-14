@@ -25,7 +25,7 @@ import { parse } from './utils/parse';
 
 const joyTheme = joyExtendTheme();
 
-export default function RentalDashboard() {
+export default function ConcertDashboard() {
   let [city, setCity] = React.useState('');
   let [address, setAddress] = React.useState('');
   let [lng, setLng] = React.useState<number | undefined>(undefined);
