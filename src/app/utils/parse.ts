@@ -1,4 +1,4 @@
-import { SearchResult } from "./types";
+import { SearchResult, DetailResult } from "@/app/utils/types";
 
 const exists = (data: any) => {
   if (data === undefined || data === null || data === "" || data === "nan") {
@@ -128,7 +128,49 @@ export const parse = (data: any) => {
     if (exists(source.wantVO.wantDesc)) {
       searchResult.wantDesc = source.wantVO.wantDesc;
     }
+    if (exists(source.project_link)) {
+      searchResult.projectLink = source.project_link;
+    }
     searchResultList.push(searchResult);
   });
   return searchResultList;
+};
+
+export const parseDetail = (data: any) => {
+  let source = data._source;
+  if (source === undefined) {
+    return null;
+  }
+  let detailResult: DetailResult = {
+    id: source.project_id,
+    title: source.project_name,
+    platform: source.platform,
+    category: source.category_name,
+    artists: source.artists,
+    showStatus: source.show_status,
+    showTime: source.show_time,
+    sessionTime: source.session_time,
+    price: source.price,
+    isGeneralAgent: source.isGeneralAgent == 'true',
+    rating: exists(source.rating) ? Number(source.rating) : null,
+    city: source.city_name,
+    venueName: exists(source.venue_name) ? source.venue_name : null,
+    venueAddress: exists(source.venue_info.venue_address) ? source.venue_info.venue_address : null,
+    lng: exists(source.venue_info.lng) ? Number(source.venue_info.lng) : null,
+    lat: exists(source.venue_info.lat) ? Number(source.venue_info.lat) : null,
+    projectInfo: source.project_info,
+    projectImgs: source.project_imgs,
+    wantNum: exists(source.wantVO.wantNumStr) ? source.wantVO.wantNumStr : null,
+    wantNumSuffix: exists(source.wantVO.wantNumSuffix) ? source.wantVO.wantNumSuffix : null,
+    wantDesc: exists(source.wantVO.wantDesc) ? source.wantVO.wantDesc : null,
+    tours: source.tours.map((tour: any) => {
+      return {
+        itemId: tour.itemId,
+        city: tour.cityName,
+        showTime: tour.showTime,
+      };
+    }),
+    projectLink: exists(source.project_link) ? source.project_link : null,
+  };
+  return detailResult;
 };

@@ -1,6 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { AxiosInstance } from "axios";
-import { headers } from "next/headers";
+import axios, { AxiosError, AxiosInstance } from "axios";
 
 const esNetwork = axios.create({
     baseURL: '/es',
@@ -51,5 +49,10 @@ export const search = async (query: string, size: number | null = null) => {
         "query": query_body,
     };
     const response = await request(esNetwork, 'POST', `/music_demo/_search`, data);
+    return response;
+}
+
+export const document = async (id: string) => {
+    const response = await request(esNetwork, 'GET', `/music_demo/_doc/${id}`);
     return response;
 }

@@ -7,21 +7,21 @@ import {
   THEME_ID as JOY_THEME_ID,
 } from '@mui/joy/styles';
 import { Experimental_CssVarsProvider as MaterialCssVarsProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
+import CssBaseline from '@mui/joy/CssBaseline';
 import Stack from '@mui/joy/Stack';
 
-import NavBar from './components/NavBar';
-import ConcertCard from './components/ConcertCard';
-import HeaderSection from './components/HeaderSection';
-import Search from './components/Search';
-import Filters from './components/Filters';
-import Pagination from './components/Pagination';
-import MapComponent from './components/MapContainer';
+import NavBar from '@/app/components/NavBar';
+import ConcertCard from '@/app/components/ConcertCard';
+import HeaderSection from '@/app/components/HeaderSection';
+import Search from '@/app/components/Search';
+import Filters from '@/app/components/Filters';
+import Pagination from '@/app/components/Pagination';
+import MapComponent from '@/app/components/MapContainer';
 
-import { search } from './utils/network';
-import { SearchResult } from './utils/types';
-import { parse } from './utils/parse';
+import { search } from '@/app/utils/network';
+import { SearchResult } from '@/app/utils/types';
+import { parse } from '@/app/utils/parse';
 
 const joyTheme = joyExtendTheme();
 

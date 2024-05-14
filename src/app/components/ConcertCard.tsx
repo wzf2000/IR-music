@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Button from '@mui/joy/Button';
@@ -10,17 +11,17 @@ import Link from '@mui/joy/Link';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import Rating from '@mui/material/Rating';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import StarIcon from '@mui/icons-material/Star';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
+import StarIcon from '@mui/icons-material/Star';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { pink, yellow } from '@mui/material/colors';
 
-import { SearchResult } from '../utils/types';
+import { SearchResult } from '@/app/utils/types';
 
 type ConcertCardProps = {
   data: SearchResult;
@@ -31,6 +32,7 @@ type ConcertCardProps = {
 };
 
 export default function ConcertCard(props: ConcertCardProps) {
+  const router = useRouter();
   const { category, title, data, handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {}, liked = false } = props;
   const { artists = '群星', hot = false, generalAgent = false, image, priceRange = '价格待定', city = '城市未知', address = '地点待确定', lng = undefined, lat = undefined, date = '时间待定', rating = -1, platform } = data;
   // const [isLiked, setIsLiked] = React.useState(liked);
@@ -252,14 +254,18 @@ export default function ConcertCard(props: ConcertCardProps) {
           >
             <Button size='sm' onClick={() => {
               console.log('click detail button');
+              router.push(`/detail/${data.id}`);
             }} >
               详情
             </Button>
-            <Button size='sm' onClick={() => {
-              console.log('click platform button');
-            }} >
-              {platform}
-            </Button>
+            {
+              data.projectLink !== undefined &&
+                <a href={data.projectLink} target='_blank'>
+                <Button size='sm'>
+                  {platform}
+                </Button>
+                </a>
+            }
             <Typography level="title-lg" sx={{ textAlign: 'right' }}>
               <strong>￥{priceRange}</strong>
             </Typography>
