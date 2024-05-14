@@ -22,10 +22,11 @@ export default function ContrySelector(props: FormControlProps) {
           <AutocompleteOption {...optionProps}>
             <ListItemDecorator>
               <AspectRatio ratio="1" sx={{ minWidth: 20, borderRadius: '50%' }}>
-                <img
+                <Image
                   loading="lazy"
                   width="20"
-                  srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                  height="20"
+                  // srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                   src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                   alt=""
                 />

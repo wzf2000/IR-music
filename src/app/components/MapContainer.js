@@ -4,11 +4,11 @@ import AMapLoader from "@amap/amap-jsapi-loader";
 import { title } from "process";
 
 export default function MapContainer(props) {
-  let map = null;
   let address = props.address;
   let city = props.city;
   let lng = props.lng;
   let lat = props.lat;
+  let map = null;
   let [globalAMap, setGlobalAMap] = useState(null);
 
   let stylesArray = [
@@ -115,7 +115,7 @@ export default function MapContainer(props) {
     return () => {
       map?.destroy();
     };
-  }, [address]);
+  }, [address]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div

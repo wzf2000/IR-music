@@ -169,6 +169,7 @@ export default function RentalDashboard() {
                   let { title, category } = val;
                   return (
                     <RentalCard
+                      key={ind}
                       data={val}
                       title={title}
                       category={category}

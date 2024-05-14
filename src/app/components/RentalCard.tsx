@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Image from 'next/image';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
@@ -90,7 +91,7 @@ export default function RentalCard(props: RentalCardProps) {
             '--AspectRatio-maxHeight': { xs: '160px', sm: '9999px' },
           }}
         >
-          <img src={image} alt="" />
+          <Image src={image} alt="" fill={true} />
           <Stack
             alignItems="center"
             direction="row"
