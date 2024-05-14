@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import AspectRatio from '@mui/joy/AspectRatio';
+import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
@@ -63,6 +64,7 @@ export default function RentalCard(props: RentalCardProps) {
     <Card
       variant="outlined"
       orientation="horizontal"
+      onClick={() => handleOnCardClick(address, city, lng, lat)}
       sx={{
         bgcolor: 'neutral.softBg',
         display: 'flex',
@@ -127,24 +129,30 @@ export default function RentalCard(props: RentalCardProps) {
       <CardContent>
         <Stack
           spacing={1}
-          direction="row"
+          direction="column"
           justifyContent="space-between"
           alignItems="flex-start"
+          width="100%"
         >
-          <div>
-            <Stack spacing={1} direction="row" sx={{ mt: 'auto' }}>
+          {/* <div> */}
+            <Stack spacing={1} direction="row" sx={{ mt: 'auto', width: '100%', display: 'flex' }}>
               <Typography level="body-sm">{category}</Typography>
               {
                 generalAgent && (
-                  <Chip variant="outlined" color="primary" size="md" startDecorator={<SupportAgentIcon />} sx={{ color: 'text.secondary' }}>
+                  <Chip variant="outlined" color="primary" size="sm" startDecorator={<SupportAgentIcon />} sx={{ color: 'text.secondary' }}>
                     总票代
                   </Chip>
                 )
               }
+              <Button size='sm' onClick={() => {
+                console.log('click button');
+              }} sx={{ ml: 'auto !important' }} >
+                详情
+              </Button>
             </Stack>
             <Typography level="title-md">
               <Link
-                overlay
+                // overlay
                 underline="none"
                 onClick={() => handleOnCardClick(address, city, lng, lat)}
                 sx={{ color: 'text.primary' }}
@@ -152,7 +160,7 @@ export default function RentalCard(props: RentalCardProps) {
                 {title}
               </Link>
             </Typography>
-          </div>
+          {/* </div> */}
           {/* <IconButton
             variant="plain"
             size="sm"

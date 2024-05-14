@@ -7,6 +7,7 @@ const exists = (data: any) => {
   return true;
 }
 
+//! deprecated
 const parse_music = (data: any) => {
   let searchResultList: SearchResult[] = [];
   data.hits.hits.forEach((val: any) => {
@@ -14,6 +15,7 @@ const parse_music = (data: any) => {
     let source = val._source.detailViewComponentMap;
     let item = source.item;
     let searchResult: SearchResult = {
+      id: val._id,
       platform: platform,
       title: item.staticData.itemBase.itemName,
       category:
@@ -82,6 +84,7 @@ export const parse = (data: any) => {
     let source = val._source;
     let platform = source.platform;
     let searchResult: SearchResult = {
+      id: val._id,
       platform: platform,
       title: source.project_name,
       category: source.category_name,

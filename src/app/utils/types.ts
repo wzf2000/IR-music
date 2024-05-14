@@ -1,4 +1,5 @@
 export type SearchResult = {
+    id: string;
     title: string;
     category: string;
     hot?: boolean;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./MapContainer.css";
 import AMapLoader from "@amap/amap-jsapi-loader";
-import { title } from "process";
 
 export default function MapContainer(props) {
   let address = props.address;
