@@ -10,20 +10,33 @@ import ModalClose from '@mui/joy/ModalClose';
 import Stack from '@mui/joy/Stack';
 import Slider, { sliderClasses } from '@mui/joy/Slider';
 import FilterAltOutlined from '@mui/icons-material/FilterAltOutlined';
-import CountrySelector from './CountrySelector';
-import OrderSelector from './OrderSelector';
+
+import CountrySelector from '@/app/components/CountrySelector';
+import OrderSelector from '@/app/components/OrderSelector';
+
+import { CountryType } from '@/app/utils/types';
 
 type FiltersProps = {
-  changeOrder: (order: string) => void;
   order: string;
+  setOrder: (order: string) => void;
+  country: CountryType;
+  setCountry: (country: CountryType) => void;
+  startDate: Date | null;
+  setStartDate: (startDate: Date | null) => void;
+  endDate: Date | null;
+  setEndDate: (endDate: Date | null) => void;
+  priceLow: number;
+  setPriceLow: (priceLow: number) => void;
+  priceHigh: number;
+  setPriceHigh: (priceHigh: number) => void;
 };
 
 function valueText(value: number) {
-  return `$${value.toLocaleString('en-US')}`;
+  return `￥${value.toLocaleString('zh-CN')}`;
 }
 
 export default function Filters(props: FiltersProps) {
-  const { changeOrder, order } = props;
+  const { setOrder, order, country, setCountry, startDate, setStartDate, endDate, setEndDate, priceLow, setPriceLow, priceHigh, setPriceHigh } = props;
   const [open, setOpen] = React.useState(false);
   return (
     <Stack
@@ -40,14 +53,14 @@ export default function Filters(props: FiltersProps) {
         startDecorator={<FilterAltOutlined />}
         onClick={() => setOpen(true)}
       >
-        Filters
+        筛选
       </Button>
-      <OrderSelector changeOrder={changeOrder} order={order} />
+      <OrderSelector order={order} setOrder={setOrder} />
       <Drawer open={open} onClose={() => setOpen(false)}>
         <Stack useFlexGap spacing={3} sx={{ p: 2 }}>
-          <DialogTitle>Filters</DialogTitle>
+          <DialogTitle>筛选</DialogTitle>
           <ModalClose />
-          <CountrySelector />
+          <CountrySelector country={country} setCountry={setCountry} />
           <Box
             sx={{
               display: 'grid',
@@ -56,15 +69,17 @@ export default function Filters(props: FiltersProps) {
               gap: 1,
             }}
           >
-            <FormLabel htmlFor="filters-start-date">Start date</FormLabel>
+            <FormLabel htmlFor="filters-start-date">开始日期</FormLabel>
             <div />
-            <FormLabel htmlFor="filters-end-date">End date</FormLabel>
+            <FormLabel htmlFor="filters-end-date">结束日期</FormLabel>
 
             <Input
               id="filters-start-date"
               type="date"
               placeholder="Jan 6 - Jan 13"
               aria-label="Date"
+              value={startDate?.toISOString()?.slice(0, 10)}
+              onChange={(e) => setStartDate(new Date(e.target.value))}
             />
             <Box sx={{ alignSelf: 'center' }}>-</Box>
             <Input
@@ -72,29 +87,55 @@ export default function Filters(props: FiltersProps) {
               type="date"
               placeholder="Jan 6 - Jan 13"
               aria-label="Date"
+              value={endDate?.toISOString()?.slice(0, 10)}
+              onChange={(e) => setEndDate(new Date(e.target.value))}
             />
           </Box>
           <FormControl>
-            <FormLabel>Price range</FormLabel>
+            <FormLabel>价格区间</FormLabel>
             <Slider
-              defaultValue={[2000, 4900]}
-              step={100}
+              defaultValue={[0, 5000]}
+              step={50}
               min={0}
-              max={10000}
+              max={5000}
               getAriaValueText={valueText}
               valueLabelDisplay="auto"
               valueLabelFormat={valueText}
+              value={[priceLow, priceHigh]}
+              onChange={(_, newValue, activeThumb) => {
+                console.log(newValue, activeThumb);
+                if (activeThumb === 0) {
+                  if (typeof newValue === 'number') {
+                    setPriceLow(newValue);
+                  } else {
+                    setPriceLow(newValue[0]);
+                  }
+                } else {
+                  if (typeof newValue === 'number') {
+                    setPriceHigh(newValue);
+                  } else {
+                    setPriceHigh(newValue[1]);
+                  }
+                }
+              }}
               marks={[
-                { value: 0, label: '$0' },
-                { value: 5000, label: '$5,000' },
-                { value: 10000, label: '$10,000' },
+                { value: 0, label: '￥0' },
+                { value: 500, label: '￥500' },
+                { value: 3000, label: '￥3,000' },
+                { value: 5000, label: '￥5,000' },
               ]}
               sx={{
                 [`& .${sliderClasses.markLabel}[data-index="0"]`]: {
-                  transform: 'none',
+                  transform: 'translateX(-50%)',
+                },
+                [`& .${sliderClasses.markLabel}[data-index="1"]`]: {
+                  transform: 'translateX(-40%)',
                 },
                 [`& .${sliderClasses.markLabel}[data-index="2"]`]: {
-                  transform: 'translateX(-100%)',
+                  transform: 'translateX(-60%)',
+                },
+                [`& .${sliderClasses.markLabel}[data-index="3"]`]: {
+                  transform: 'translateX(-70%)',
                 },
               }}
             />

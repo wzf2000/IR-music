@@ -1,4 +1,4 @@
-export type SearchResult = {
+export interface SearchResult {
     id: string;
     title: string;
     category: string;
@@ -21,13 +21,13 @@ export type SearchResult = {
     projectLink?: string;
 };
 
-export type Tour = {
+export interface Tour {
     itemId: string;
     city: string;
     showTime: string;
 }
 
-export type DetailResult = {
+export interface DetailResult {
     id: string;
     title: string;
     platform: string;
@@ -52,3 +52,10 @@ export type DetailResult = {
     tours: Tour[];
     projectLink: string | null;
 };
+
+export interface CountryType {
+    code: string;
+    label: string;
+    phone: string;
+    suggested?: boolean;
+  }

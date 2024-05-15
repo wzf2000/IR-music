@@ -6,15 +6,15 @@ import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Dropdown from '@mui/joy/Dropdown';
 
 type OrderSelectorProps = {
-  changeOrder: (order: string) => void;
   order: string;
+  setOrder: (order: string) => void;
 };
 
 export default function OrderSelector(props: OrderSelectorProps) {
-  const { changeOrder, order } = props;
+  const { setOrder, order } = props;
   const handleOrderChange = (newOrder: string) => () => {
     if (typeof newOrder === 'string') {
-      changeOrder(newOrder);
+      setOrder(newOrder);
     }
   }
   return (

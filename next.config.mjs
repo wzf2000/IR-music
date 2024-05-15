@@ -22,6 +22,11 @@ const nextConfig = {
                 port: '',
             },
             {
+                protocol: 'http',
+                hostname: '**.aliyuncs.com',
+                port: '',
+            },
+            {
                 protocol: 'https',
                 hostname: 'wticket.chncpa.org',
                 port: '',

@@ -23,8 +23,8 @@ import MapComponent from '@/app/components/MapContainer';
 
 import { search } from '@/app/utils/network';
 import { parse } from '@/app/utils/parse';
-import { sortByOrder } from '@/app/utils/sort';
-import { SearchResult } from '@/app/utils/types';
+import { sortByOrder, filterByDate, filterByPrice } from '@/app/utils/process';
+import { SearchResult, CountryType } from '@/app/utils/types';
 
 const joyTheme = joyExtendTheme();
 
@@ -46,21 +46,23 @@ export default function ConcertDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [order, setOrder] = useState('Relevance');
+  const [country, setCountry] = useState<CountryType>({ code: 'AU', label: 'Australia', phone: '61' });
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [priceLow, setPriceLow] = useState(0);
+  const [priceHigh, setPriceHigh] = useState(5000);
   const asyncResults: AsyncResylts = useMemo(() => ({
     value: [],
     status: 'idle',
   }), [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
   const results = useMemo(() => {
-    return sortByOrder(order, asyncResults.value);
-  }, [order, asyncResults.value]);
+    return sortByOrder(filterByPrice(filterByDate(asyncResults.value, startDate, endDate), priceLow, priceHigh), order);
+  }, [order, asyncResults.value, startDate, endDate, priceLow, priceHigh]);
   const handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {
     setAddress(address);
     setCity(city);
     setLng(lng);
     setLat(lat);
-  };
-  const changeOrder = (order: string) => {
-    setOrder(order);
   };
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -171,7 +173,14 @@ export default function ConcertDashboard() {
           <MapComponent address={address} city={city} lng={lng} lat={lat} />
         </Box>
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
-          <Filters changeOrder={changeOrder} order={order} />
+          <Filters
+            order={order} setOrder={setOrder}
+            country={country} setCountry={setCountry}
+            startDate={startDate} setStartDate={setStartDate}
+            endDate={endDate} setEndDate={setEndDate}
+            priceLow={priceLow} setPriceLow={setPriceLow}
+            priceHigh={priceHigh} setPriceHigh={setPriceHigh}
+          />
           <Stack spacing={2} sx={{ overflow: 'auto' }}>
             {
               results.length === 0 ? (

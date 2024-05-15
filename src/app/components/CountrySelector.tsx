@@ -8,15 +8,28 @@ import FormLabel from '@mui/joy/FormLabel';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import Typography from '@mui/joy/Typography';
 
-export default function ContrySelector(props: FormControlProps) {
-  const { sx, ...other } = props;
+import { CountryType } from '@/app/utils/types';
+
+interface CountrySelectorProps extends FormControlProps {
+  country: CountryType;
+  setCountry: (country: CountryType) => void;
+};
+
+export default function ContrySelector(props: CountrySelectorProps) {
+  const { sx, country, setCountry, ...other } = props;
   return (
     <FormControl {...other} sx={sx}>
-      <FormLabel>Country</FormLabel>
+      <FormLabel>城市</FormLabel>
       <Autocomplete
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value.code}
         defaultValue={{ code: 'AU', label: 'Australia', phone: '61' }}
+        value={country}
+        onChange={(_, newValue) => {
+          if (newValue) {
+            setCountry(newValue);
+          }
+        }}
         options={countries}
         renderOption={(optionProps, option) => (
           <AutocompleteOption {...optionProps}>
@@ -26,7 +39,6 @@ export default function ContrySelector(props: FormControlProps) {
                   loading="lazy"
                   width="20"
                   height="20"
-                  // srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                   src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                   alt=""
                 />
@@ -46,13 +58,6 @@ export default function ContrySelector(props: FormControlProps) {
       />
     </FormControl>
   );
-}
-
-interface CountryType {
-  code: string;
-  label: string;
-  phone: string;
-  suggested?: boolean;
 }
 
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js

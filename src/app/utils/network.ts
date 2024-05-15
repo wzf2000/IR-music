@@ -37,11 +37,11 @@ export const search = async (query: string, size: number | null = null) => {
         "multi_match": {
             "query": query,
             "fuzziness": "AUTO",
-            "fields": ["project_name", "artists", "city_name", "venue_name", "venue_info.venue_address"]
+            "fields": ["project_name^6", "artists^6", "city_name^2", "venue_name", "venue_info.venue_address", "project_info^4"]
         }
     };
     const data = size == null ? {
-        "min_score": 5,
+        "min_score": 24,
         "size": 10000,
         "query": query_body,
     } : {
