@@ -146,7 +146,7 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                       '--AspectRatio-maxHeight': { xs: '160px', sm: '9999px' },
                     }}
                   >
-                    <Image fill={true} src={detailData.projectImgs[0]} alt={detailData.title} />
+                    <Image fill={true} src={detailData.projectImgs[0]} alt={detailData.title} onClick={() => setOpenId(0)} />
                   </AspectRatio>
                   <Stack
                     spacing={1}
@@ -359,7 +359,7 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                               src={`${item}?w=164&h=164&fit=crop&auto=format`}
                               alt={ind.toString()}
                               loading="lazy"
-                              onClick={() => setOpenId(ind)}
+                              onClick={() => setOpenId(ind + 1)}
                             />
                           </ImageListItem>
                         ))}
@@ -388,7 +388,7 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                                 <img // eslint-disable-line @next/next/no-img-element
                                   width="95%"
                                   height="auto"
-                                  src={detailData.projectImgs[openId + 1]}
+                                  src={detailData.projectImgs[openId]}
                                   alt={detailData.title}
                                 />
                               </div>
