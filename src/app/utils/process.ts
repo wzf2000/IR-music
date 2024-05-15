@@ -1,4 +1,4 @@
-import { SearchResult } from "@/app/utils/types";
+import { SearchResult, CityType } from "@/app/utils/types";
 
 const getPriceRange = (priceRange: string | undefined) => {
   if (!priceRange || priceRange === "价格待定" || priceRange === "待定") {
@@ -88,6 +88,15 @@ const checkDateRange = (date1: Date, date2: Date, startDate: Date | null, endDat
     (endDate === null && startDate !== null && date2 >= startDate) ||
     (startDate !== null && endDate !== null && date1 <= endDate && date2 >= startDate)
   );
+}
+
+export const filterByCity = (results: SearchResult[], city: CityType) => {
+  if (city.label === "所有城市") {
+    return results;
+  }
+  return results.filter((result) => {
+    return result.city === city.label;
+  });
 }
 
 export const filterByDate = (results: SearchResult[], startDate: Date | null, endDate: Date | null) => {

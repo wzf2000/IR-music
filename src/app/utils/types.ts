@@ -53,9 +53,9 @@ export interface DetailResult {
     projectLink: string | null;
 };
 
-export interface CountryType {
+export interface CityType {
     code: string;
+    province: string;
     label: string;
-    phone: string;
     suggested?: boolean;
-  }
+};

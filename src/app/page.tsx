@@ -23,8 +23,8 @@ import MapComponent from '@/app/components/MapContainer';
 
 import { search } from '@/app/utils/network';
 import { parse } from '@/app/utils/parse';
-import { sortByOrder, filterByDate, filterByPrice } from '@/app/utils/process';
-import { SearchResult, CountryType } from '@/app/utils/types';
+import { sortByOrder, filterByDate, filterByPrice, filterByCity } from '@/app/utils/process';
+import { SearchResult, CityType } from '@/app/utils/types';
 
 const joyTheme = joyExtendTheme();
 
@@ -46,7 +46,7 @@ export default function ConcertDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [order, setOrder] = useState('Relevance');
-  const [country, setCountry] = useState<CountryType>({ code: 'AU', label: 'Australia', phone: '61' });
+  const [filterCity, setFilterCity] = useState<CityType>({ code: '000000', label: '所有城市', province: '所有城市'});
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [priceLow, setPriceLow] = useState(0);
@@ -56,8 +56,11 @@ export default function ConcertDashboard() {
     status: 'idle',
   }), [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
   const results = useMemo(() => {
-    return sortByOrder(filterByPrice(filterByDate(asyncResults.value, startDate, endDate), priceLow, priceHigh), order);
-  }, [order, asyncResults.value, startDate, endDate, priceLow, priceHigh]);
+    const searchResultList = sortByOrder(filterByPrice(filterByDate(filterByCity(asyncResults.value, filterCity), startDate, endDate), priceLow, priceHigh), order);
+    setTotalPage(Math.ceil(searchResultList.length / 5));
+    setCurrentPage(1);
+    return searchResultList;
+  }, [asyncResults.value, order, filterCity, startDate, endDate, priceLow, priceHigh]);
   const handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {
     setAddress(address);
     setCity(city);
@@ -98,8 +101,6 @@ export default function ConcertDashboard() {
         (response) => {
           if (response) {
             const searchResultList: SearchResult[] = parse(response.data);
-            setTotalPage(Math.ceil(searchResultList.length / 5));
-            setCurrentPage(1);
             return searchResultList;
           }
           return [];
@@ -175,7 +176,7 @@ export default function ConcertDashboard() {
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
           <Filters
             order={order} setOrder={setOrder}
-            country={country} setCountry={setCountry}
+            city={filterCity} setCity={setFilterCity}
             startDate={startDate} setStartDate={setStartDate}
             endDate={endDate} setEndDate={setEndDate}
             priceLow={priceLow} setPriceLow={setPriceLow}

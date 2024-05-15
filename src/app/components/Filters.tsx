@@ -11,16 +11,16 @@ import Stack from '@mui/joy/Stack';
 import Slider, { sliderClasses } from '@mui/joy/Slider';
 import FilterAltOutlined from '@mui/icons-material/FilterAltOutlined';
 
-import CountrySelector from '@/app/components/CountrySelector';
+import CitySelector from '@/app/components/CitySelector';
 import OrderSelector from '@/app/components/OrderSelector';
 
-import { CountryType } from '@/app/utils/types';
+import { CityType } from '@/app/utils/types';
 
 type FiltersProps = {
   order: string;
   setOrder: (order: string) => void;
-  country: CountryType;
-  setCountry: (country: CountryType) => void;
+  city: CityType;
+  setCity: (city: CityType) => void;
   startDate: Date | null;
   setStartDate: (startDate: Date | null) => void;
   endDate: Date | null;
@@ -36,7 +36,7 @@ function valueText(value: number) {
 }
 
 export default function Filters(props: FiltersProps) {
-  const { setOrder, order, country, setCountry, startDate, setStartDate, endDate, setEndDate, priceLow, setPriceLow, priceHigh, setPriceHigh } = props;
+  const { setOrder, order, city, setCity, startDate, setStartDate, endDate, setEndDate, priceLow, setPriceLow, priceHigh, setPriceHigh } = props;
   const [open, setOpen] = React.useState(false);
   return (
     <Stack
@@ -60,7 +60,7 @@ export default function Filters(props: FiltersProps) {
         <Stack useFlexGap spacing={3} sx={{ p: 2 }}>
           <DialogTitle>筛选</DialogTitle>
           <ModalClose />
-          <CountrySelector country={country} setCountry={setCountry} />
+          <CitySelector city={city} setCity={setCity} />
           <Box
             sx={{
               display: 'grid',
