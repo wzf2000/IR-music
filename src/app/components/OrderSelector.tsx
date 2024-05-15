@@ -11,13 +11,12 @@ type OrderSelectorProps = {
 };
 
 export default function OrderSelector(props: OrderSelectorProps) {
-  let { changeOrder, order } = props;
-  let handleOrderChange = (newOrder: string) => () => {
+  const { changeOrder, order } = props;
+  const handleOrderChange = (newOrder: string) => () => {
     if (typeof newOrder === 'string') {
       changeOrder(newOrder);
     }
   }
-  console.log(order);
   return (
     <Dropdown>
       <MenuButton

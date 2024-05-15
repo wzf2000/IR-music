@@ -7,7 +7,13 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import ColorSchemeToggle from './ColorSchemeToggle';
 
-export default function HeaderSection() {
+type NavBarProps = {
+  title: string;
+  handleClickIcon: () => void;
+};
+
+export default function NavBar(props: NavBarProps) {
+  const { title, handleClickIcon } = props;
   return (
     <Box
       sx={{
@@ -34,11 +40,11 @@ export default function HeaderSection() {
           gap: 1.5,
         }}
       >
-        <IconButton size="sm" variant="soft">
+        <IconButton size="sm" variant="soft" onClick={handleClickIcon}>
           <LibraryMusicIcon />
         </IconButton>
         <Typography component="h1" fontWeight="xl">
-          Music Search
+          {title}
         </Typography>
       </Box>
 

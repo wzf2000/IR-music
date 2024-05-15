@@ -3,14 +3,14 @@ import styles from "./MapContainer.css";
 import AMapLoader from "@amap/amap-jsapi-loader";
 
 export default function MapContainer(props) {
-  let address = props.address;
-  let city = props.city;
-  let lng = props.lng;
-  let lat = props.lat;
+  const address = props.address;
+  const city = props.city;
+  const lng = props.lng;
+  const lat = props.lat;
+  const [globalAMap, setGlobalAMap] = useState(null);
   let map = null;
-  let [globalAMap, setGlobalAMap] = useState(null);
 
-  let stylesArray = [
+  const stylesArray = [
     {
       icon: { //图标样式
         img: "/marker.svg", //图片地址
@@ -39,7 +39,7 @@ export default function MapContainer(props) {
     20: 0,
   };
 
-  let drawMap = (AMap) => {
+  const drawMap = (AMap) => {
     if (
       city === "城市未知" ||
       city === undefined ||
@@ -48,7 +48,7 @@ export default function MapContainer(props) {
     )
       return;
     AMap.plugin("AMap.Geocoder", function () {
-      let geocoder = new AMap.Geocoder({
+      const geocoder = new AMap.Geocoder({
         city: city,
       });
       if (lng !== undefined && lat !== undefined) {
@@ -71,7 +71,7 @@ export default function MapContainer(props) {
       } else {
         geocoder.getLocation(address, function (status, result) {
           if (status === "complete" && result.info === "OK") {
-            let location = result.geocodes[0].location;
+            const location = result.geocodes[0].location;
             map = new AMap.Map("container", {
               // 设置地图容器id
               viewMode: "3D", // 是否为3D地图模式

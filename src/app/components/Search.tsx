@@ -7,19 +7,23 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Typography from '@mui/joy/Typography';
 
 type SearchProps = {
+  placeholder: string;
+  query: string;
+  setQuery: (query: string) => void;
   onSearch?: (query: string) => void;
   count?: number;
+  countSuffix: string;
 };
 
 export default function Search(props: SearchProps) {
-  let { onSearch = (query: string) => {}, count = undefined } = props;
-  let [query, setQuery] = React.useState('');
+  const { onSearch = (query: string) => {}, count = undefined, placeholder, countSuffix, query, setQuery } = props;
+  // const [query, setQuery] = React.useState('');
   return (
     <div>
       <Stack spacing={1} direction="row" sx={{ mb: 2 }}>
         <FormControl sx={{ flex: 1 }}>
           <Input
-            placeholder="搜索你想要知道的音乐演出"
+            placeholder={placeholder}
             startDecorator={<SearchRoundedIcon />}
             aria-label="Search"
             value={query}
@@ -37,7 +41,7 @@ export default function Search(props: SearchProps) {
         </Button>
       </Stack>
       <Typography level="body-sm"> {
-        count === undefined ? '搜索你想要知道的音乐演出' : count + "场相关的音乐演出"
+        count === undefined ? placeholder : count + countSuffix
       } </Typography>
     </div>
   );

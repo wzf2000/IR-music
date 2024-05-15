@@ -13,7 +13,7 @@ type PaginationProps = {
 };
 
 export default function Pagination(props: PaginationProps) {
-  let { currentPage, totalPage, onPageChange } = props;
+  const { currentPage, totalPage, onPageChange } = props;
   let pageList = [];
   if (totalPage <= 7) {
     pageList = Array.from({ length: totalPage }, (_, i) => (i + 1).toString());

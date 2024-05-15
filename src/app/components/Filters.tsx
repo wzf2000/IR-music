@@ -23,7 +23,7 @@ function valueText(value: number) {
 }
 
 export default function Filters(props: FiltersProps) {
-  let { changeOrder, order } = props;
+  const { changeOrder, order } = props;
   const [open, setOpen] = React.useState(false);
   return (
     <Stack

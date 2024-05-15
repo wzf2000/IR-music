@@ -1,5 +1,7 @@
 'use client';
 import * as React from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Script from 'next/script';
 import {
   extendTheme as joyExtendTheme,
@@ -25,16 +27,29 @@ import { parse } from '@/app/utils/parse';
 
 const joyTheme = joyExtendTheme();
 
+type AsyncResylts = {
+  value: SearchResult[];
+  status: 'idle' | 'pending' | 'resolved';
+};
+
 export default function ConcertDashboard() {
-  let [city, setCity] = React.useState('');
-  let [address, setAddress] = React.useState('');
-  let [lng, setLng] = React.useState<number | undefined>(undefined);
-  let [lat, setLat] = React.useState<number | undefined>(undefined);
-  let [results, setResults] = React.useState<SearchResult[]>([]);
-  let [searched, setSearched] = React.useState(false);
-  let [currentPage, setCurrentPage] = React.useState(1);
-  let [totalPage, setTotalPage] = React.useState(1);
-  let [order, setOrder] = React.useState('Relevance');
+  const router = useRouter();
+  const pathname = usePathname()
+  const searchParams = useSearchParams();
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [lng, setLng] = useState<number | undefined>(undefined);
+  const [lat, setLat] = useState<number | undefined>(undefined);
+  const [query, setQuery] = useState('');
+  const [searched, setSearched] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [order, setOrder] = useState('Relevance');
+  const asyncResults: AsyncResylts = useMemo(() => ({
+    value: [],
+    status: 'idle',
+  }), [order, searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+  const results = asyncResults.value;
   const handleOnCardClick = (address: string, city: string, lng?: number, lat?: number) => {
     setAddress(address);
     setCity(city);
@@ -52,10 +67,10 @@ export default function ConcertDashboard() {
         return results.sort((a, b) => {
           const getLowPrice = (priceRange: string | undefined) => {
             if (priceRange === undefined || priceRange === '价格待定') return 10000000;
-            let price = priceRange.split('-');
+            const price = priceRange.split('-');
             return parseFloat(price[0]);
           };
-          let priceA = getLowPrice(a.priceRange), priceB = getLowPrice(b.priceRange);
+          const priceA = getLowPrice(a.priceRange), priceB = getLowPrice(b.priceRange);
           if (priceA === priceB) {
             return b.score - a.score;
           } else {
@@ -70,7 +85,7 @@ export default function ConcertDashboard() {
             // get YYYY.MM.DD
             return new Date(date.slice(0, 10));
           }
-          let dateA = getLeftDate(a.date), dateB = getLeftDate(b.date);
+          const dateA = getLeftDate(a.date), dateB = getLeftDate(b.date);
           if (dateA === dateB) {
             return b.score - a.score;
           } else {
@@ -80,7 +95,7 @@ export default function ConcertDashboard() {
         break;
       case "Rating":
         return results.sort((a, b) => {
-          let ratingA = a.rating === undefined ? 0 : a.rating, ratingB = b.rating === undefined ? 0 : b.rating;
+          const ratingA = a.rating === undefined ? 0 : a.rating, ratingB = b.rating === undefined ? 0 : b.rating;
           if (ratingA === ratingB) {
             return b.score - a.score;
           } else {
@@ -92,16 +107,79 @@ export default function ConcertDashboard() {
     return results;
   }
   const changeOrder = (order: string) => {
-    setResults(sortByOrder(order, results));
+    // setResults(sortByOrder(order, results));
     setOrder(order);
   };
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+ 
+      return params.toString()
+    },
+    [searchParams]
+  );
+  const onSearch = (query: string) => {
+    if (searchParams.get('query') !== query) {
+      console.log('pushing new query to history');
+      router.push(pathname + '?' + createQueryString('query', query));
+      setSearched(false);
+    }
+  };
+
+  useEffect(() => {
+    if (asyncResults.status !== 'idle') {
+      return;
+    }
+
+    const fetchData = async () => {
+      asyncResults.status = 'pending';
+      const query = searchParams.get('query');
+      if (query === null) {
+        asyncResults.value = [];
+        asyncResults.status = 'resolved';
+        return;
+      }
+      asyncResults.value = await search(query).then(
+        (response) => {
+          if (response) {
+            const searchResultList: SearchResult[] = parse(response.data);
+            setTotalPage(Math.ceil(searchResultList.length / 5));
+            setCurrentPage(1);
+            return sortByOrder(order, searchResultList);
+          }
+          return [];
+        }
+      ).catch((error) => {
+        console.error('Error:', error);
+        return [];
+      }).finally(() => {
+        setSearched(true);
+      });
+      asyncResults.status = 'resolved';
+    };
+    fetchData();
+  }, [asyncResults]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (searchParams.has('query')) {
+      const queryParam = searchParams.get('query');
+      if (queryParam !== null && queryParam !== query) {
+        console.log('query changed to', queryParam);
+        setQuery(queryParam);
+      }
+    }
+  }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <JoyCssVarsProvider theme={{ [JOY_THEME_ID]: joyTheme }} disableTransitionOnChange>
     <MaterialCssVarsProvider>
       <CssBaseline enableColorScheme />
       <Script src="https://webapi.amap.com/maps?v=1.4.15&key=c9020fcf56e3d78809895825c68f439e&callback=init"></Script>
       <CssBaseline />
-      <NavBar />
+      <NavBar title="Music Search" handleClickIcon={() => {
+        console.log('Do nothing');
+      }} />
       <Box
         component="main"
         sx={{
@@ -120,28 +198,14 @@ export default function ConcertDashboard() {
             borderColor: 'divider',
           }}
         >
-          <HeaderSection />
+          <HeaderSection title="音乐演出检索" subtitle="一键搜索你想去的演唱会、音乐节~" />
           <Search
-            onSearch={
-              (query: string) => {
-                console.log('searching for', query);
-                search(query).then((response) => {
-                  if (response) {
-                    let scores: number[] = [];
-                    response.data.hits.hits.forEach((val: any) => {
-                      scores.push(val._score);
-                    })
-                    console.log('scores:', scores);
-                    let searchResultList: SearchResult[] = parse(response.data);
-                    setResults(sortByOrder(order, searchResultList));
-                    setTotalPage(Math.ceil(searchResultList.length / 5));
-                    setCurrentPage(1);
-                  }
-                  setSearched(true);
-                });
-              }
-            }
+            placeholder="搜索你想要知道的音乐演出"
+            query={query}
+            setQuery={setQuery}
+            onSearch={onSearch}
             count={searched ? results.length : undefined}
+            countSuffix=" 场相关的音乐演出"
           />
         </Stack>
         <Box
@@ -166,7 +230,7 @@ export default function ConcertDashboard() {
                 )
               ) : (
                 results.slice(currentPage * 5 - 5, currentPage * 5).map((val, ind) => {
-                  let { title, category } = val;
+                  const { title, category } = val;
                   return (
                     <ConcertCard
                       key={ind}

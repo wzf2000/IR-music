@@ -9,12 +9,12 @@ const exists = (data: any) => {
 
 //! deprecated
 const parse_music = (data: any) => {
-  let searchResultList: SearchResult[] = [];
+  const searchResultList: SearchResult[] = [];
   data.hits.hits.forEach((val: any) => {
-    let platform = val._source.platform;
-    let source = val._source.detailViewComponentMap;
-    let item = source.item;
-    let searchResult: SearchResult = {
+    const platform = val._source.platform;
+    const source = val._source.detailViewComponentMap;
+    const item = source.item;
+    const searchResult: SearchResult = {
       id: val._id,
       platform: platform,
       title: item.staticData.itemBase.itemName,
@@ -29,7 +29,7 @@ const parse_music = (data: any) => {
     if ("dynamicData" in item && "artists" in item.dynamicData) {
       let artists = item.dynamicData.artists;
       // get the first 3 artists or less
-      let moreThanThree = artists.length > 3;
+      const moreThanThree = artists.length > 3;
       artists = artists.slice(0, 3);
       // get the artistName of each artist
       artists = artists.map((artist: any) => artist.artistName);
@@ -40,7 +40,7 @@ const parse_music = (data: any) => {
     } else if ("dynamicExtData" in item && "artists" in item.dynamicExtData) {
       let artists = item.dynamicExtData.artists;
       // get the first 3 artists or less
-      let moreThanThree = artists.length > 3;
+      const moreThanThree = artists.length > 3;
       artists = artists.slice(0, 3);
       // get the artistName of each artist
       artists = artists.map((artist: any) => artist.artistName);
@@ -79,11 +79,11 @@ const parse_music = (data: any) => {
 };
 
 export const parse = (data: any) => {
-  let searchResultList: SearchResult[] = [];
+  const searchResultList: SearchResult[] = [];
   data.hits.hits.forEach((val: any) => {
-    let source = val._source;
-    let platform = source.platform;
-    let searchResult: SearchResult = {
+    const source = val._source;
+    const platform = source.platform;
+    const searchResult: SearchResult = {
       id: val._id,
       platform: platform,
       title: source.project_name,
@@ -97,7 +97,7 @@ export const parse = (data: any) => {
     };
     let artists = source.artists;
     // get the first 3 artists or less
-    let moreThanThree = artists.length > 3;
+    const moreThanThree = artists.length > 3;
     artists = artists.slice(0, 3);
     searchResult.artists = artists.join("，");
     if (moreThanThree) {
@@ -137,11 +137,11 @@ export const parse = (data: any) => {
 };
 
 export const parseDetail = (data: any) => {
-  let source = data._source;
+  const source = data._source;
   if (source === undefined) {
     return null;
   }
-  let detailResult: DetailResult = {
+  const detailResult: DetailResult = {
     id: source.project_id,
     title: source.project_name,
     platform: source.platform,
