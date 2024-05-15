@@ -27,7 +27,12 @@ export default function Search(props: SearchProps) {
             startDecorator={<SearchRoundedIcon />}
             aria-label="Search"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                onSearch(query);
+              }
+            }}
           />
         </FormControl>
         <Button
