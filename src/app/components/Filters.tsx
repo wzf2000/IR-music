@@ -78,8 +78,16 @@ export default function Filters(props: FiltersProps) {
               type="date"
               placeholder="Jan 6 - Jan 13"
               aria-label="Date"
-              value={startDate?.toISOString()?.slice(0, 10)}
-              onChange={(e) => setStartDate(new Date(e.target.value))}
+              value={startDate ? startDate.toISOString()?.slice(0, 10) : undefined}
+              onChange={(e) => {
+                const date = new Date(e.target.value);
+                if (isNaN(date.getTime())) {
+                  setStartDate(null);
+                }
+                else {
+                  setStartDate(new Date(e.target.value));
+                }
+              }}
             />
             <Box sx={{ alignSelf: 'center' }}>-</Box>
             <Input
@@ -88,7 +96,15 @@ export default function Filters(props: FiltersProps) {
               placeholder="Jan 6 - Jan 13"
               aria-label="Date"
               value={endDate?.toISOString()?.slice(0, 10)}
-              onChange={(e) => setEndDate(new Date(e.target.value))}
+              onChange={(e) => {
+                const date = new Date(e.target.value);
+                if (isNaN(date.getTime())) {
+                  setEndDate(null);
+                }
+                else {
+                  setEndDate(new Date(e.target.value));
+                }
+              }}
             />
           </Box>
           <FormControl>
