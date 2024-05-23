@@ -120,19 +120,20 @@ export const filterByDate = (results: SearchResult[], startDate: Date | null, en
     const pattern4 = /^(\d{4})\.(\d{1,2})\.(\d{1,2}) (\d{1,2}):(\d{1,2})$/;
     if (pattern1.test(result.date) || pattern2.test(result.date) || pattern3.test(result.date) || pattern4.test(result.date)) {
       const dateString = /^(\d{4})\.(\d{1,2})\.(\d{1,2})/.exec(result.date);
-      const date = new Date(dateString ? dateString[0] : "9999-12-31");
+      const date = new Date(dateString ? dateString[0].replaceAll('.', '-') : "9999-12-31");
+      console.log(dateString ? dateString[0].replaceAll('.', '-') : "9999-12-31");
       return checkDate(date, startDate, endDate);
     }
     // pattern5 YYYY.MM.DD[-~]YYYY.MM.DD
     const pattern5 = /^(\d{4})[\./](\d{2})[\./](\d{2})[-~](\d{4})[\./](\d{2})[\./](\d{2})$/;
     if (pattern5.test(result.date)) {
-      const date1 = new Date(result.date.slice(0, 10)), date2 = new Date(result.date.slice(11, 21));
+      const date1 = new Date(result.date.slice(0, 10).replaceAll('.', '-')), date2 = new Date(result.date.slice(11, 21).replaceAll('.', '-'));
       return checkDateRange(date1, date2, startDate, endDate);
     }
     // pattern6 YYYY.MM.DD[-~]MM.DD
     const pattern6 = /^(\d{4})\.(\d{2})\.(\d{2})[-~](\d{2})\.(\d{2})$/;
     if (pattern6.test(result.date)) {
-      const date1 = new Date(result.date.slice(0, 10)), date2 = new Date(result.date.slice(0, 5) + result.date.slice(11, 16));
+      const date1 = new Date(result.date.slice(0, 10).replaceAll('.', '-')), date2 = new Date((result.date.slice(0, 5) + result.date.slice(11, 16)).replaceAll('.', '-'));
       return checkDateRange(date1, date2, startDate, endDate);
     }
     // pattern7 YYYY.mM.dD / mM.dD
@@ -140,21 +141,21 @@ export const filterByDate = (results: SearchResult[], startDate: Date | null, en
     if (pattern7.test(result.date)) {
       const dateString = pattern7.exec(result.date);
       // dateString[1] = YYYY.mM.dD, dateString[2] = YYYY., dateString[3] = mM.dD
-      const date1 = new Date(dateString ? dateString[1] : "9999-12-31"), date2 = new Date(dateString ? dateString[2] + dateString[3] : "9999-12-31");
+      const date1 = new Date(dateString ? dateString[1].replaceAll('.', '-') : "9999-12-31"), date2 = new Date(dateString ? (dateString[2] + dateString[3]).replaceAll('.', '-') : "9999-12-31");
       return checkDate(date1, startDate, endDate) || checkDate(date2, startDate, endDate);
     }
     // pattern8 YYYY.mM.dD - YYYY.mM.dD
     const pattern8 = /^(\d{4}\.\d{1,2}\.\d{1,2}) - (\d{4}\.\d{1,2}\.\d{1,2})$/;
     if (pattern8.test(result.date)) {
       const dateString = pattern8.exec(result.date);
-      const date1 = new Date(dateString ? dateString[1] : "9999-12-31"), date2 = new Date(dateString ? dateString[2] : "9999-12-31");
+      const date1 = new Date(dateString ? dateString[1].replaceAll('.', '-') : "9999-12-31"), date2 = new Date(dateString ? dateString[2].replaceAll('.', '-') : "9999-12-31");
       return checkDateRange(date1, date2, startDate, endDate);
     }
     // pattern9 YYYY.mM.dD - mM.dD
     const pattern9 = /^((\d{4}\.)\d{1,2}\.\d{1,2}) - (\d{1,2}\.\d{1,2})$/;
     if (pattern9.test(result.date)) {
       const dateString = pattern9.exec(result.date);
-      const date1 = new Date(dateString ? dateString[1] : "9999-12-31"), date2 = new Date(dateString ? dateString[2] + dateString[3] : "9999-12-31");
+      const date1 = new Date(dateString ? dateString[1].replaceAll('.', '-') : "9999-12-31"), date2 = new Date(dateString ? dateString[2].replaceAll('.', '-') + dateString[3] : "9999-12-31");
       return checkDateRange(date1, date2, startDate, endDate);
     }
     return false;
