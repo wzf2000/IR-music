@@ -103,7 +103,6 @@ export default function Filters(props: FiltersProps) {
               valueLabelFormat={valueText}
               value={[priceLow, priceHigh]}
               onChange={(_, newValue, activeThumb) => {
-                console.log(newValue, activeThumb);
                 if (activeThumb === 0) {
                   if (typeof newValue === 'number') {
                     setPriceLow(newValue);

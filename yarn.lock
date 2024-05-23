@@ -12,6 +12,11 @@
   resolved "https://registry.npmmirror.com/@amap/amap-jsapi-loader/-/amap-jsapi-loader-1.0.1.tgz"
   integrity sha512-nPyLKt7Ow/ThHLkSvn2etQlUzqxmTVgK7bIgwdBRTg2HK5668oN7xVxkaiRe3YZEzGzfV2XgH5Jmu2T73ljejw==
 
+"@amap/amap-jsapi-types@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.npmmirror.com/@amap/amap-jsapi-types/-/amap-jsapi-types-0.0.15.tgz#9e2d102c2ac9f7e7c1752f63f7be628c62c8d04b"
+  integrity sha512-oqyRqHpVDZh5bUe2mAJh41ZsziSj0eUzwcfIbiaBNB0eiTJnZNhKsTdk77VOklOjwuwNfsblpKW9LjmWNpeQ7A==
+
 "@babel/code-frame@^7.0.0":
   version "7.24.2"
   resolved "https://registry.npmmirror.com/@babel/code-frame/-/code-frame-7.24.2.tgz"
@@ -744,6 +749,300 @@
     "@typescript-eslint/types" "7.2.0"
     eslint-visitor-keys "^3.4.1"
 
+"@uiw/react-amap-api-loader@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-api-loader/-/react-amap-api-loader-6.0.4.tgz#b2ef1aed37aa209e1e6ccb9e842710714e737af7"
+  integrity sha512-JpgpNVmnkj5VL2nknZWyY4AHBIaf78eHhfMSJcQrupoITpu6cEmBZ9LD1JiemqF3zB21CY7R2CbX9mSXRzI6Fg==
+  dependencies:
+    "@amap/amap-jsapi-loader" "^1.0.1"
+    "@uiw/react-amap-require-script" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+
+"@uiw/react-amap-auto-complete@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-auto-complete/-/react-amap-auto-complete-6.0.4.tgz#fe83dd10f84a9f30a628fc786fdfa7ae5548ca39"
+  integrity sha512-LqasTp00Xxcs7NQwgF9QudRDyPZiKk0t8KAEV0bhzoEDGMq08sGXMfZWGY1ER3kjMHHswf2PPoV05InPA3WgIg==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-bezier-curve@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-bezier-curve/-/react-amap-bezier-curve-6.0.4.tgz#e9946c62e5be768053b6e6ee801b32e288f1cb40"
+  integrity sha512-J2T7f9AeotU7IOiHaNJFwSnxb1vGqu9txDfMegWY5YmaIvG0H9mpLIj0wQWcBnWJaW//+uL4xY3gPnLSWrdJaw==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-circle-marker@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-circle-marker/-/react-amap-circle-marker-6.0.4.tgz#4f8075a3655ced77fbc3101d82bf9d604a5fc6f7"
+  integrity sha512-WlQYCnjbGKHiPviq3eTRyUaGq4uFEEle6wrlCUkWY8OOaxMTmvZ0OVMnxHnugcaYkSeCP97ZtlKk/2L3J5UNXw==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-circle@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-circle/-/react-amap-circle-6.0.4.tgz#c83306bc3c437d409c267b2cfd47deadb410a374"
+  integrity sha512-/V1jUqWsPiwfi2YXQbitGTGFc8pS7NRsRS0LzPBrZkMCfxZXzc0qYmpWfp60AYV9wpqj88VapCX3lEELrjj8jA==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-context-menu@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-context-menu/-/react-amap-context-menu-6.0.4.tgz#8d53d44002843a7c6f75f5c2230476de50df9082"
+  integrity sha512-aKPJuMXz8nozeuJNxOB1E0Lxdbs+hjX0etgL+4hBO0c3RzUqDDdrfH1WzaNF5kjrT9i8dVEWZHIX2ih7rE5Zdw==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-control-bar-control@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-control-bar-control/-/react-amap-control-bar-control-6.0.4.tgz#8d84ad9989913793289fe48f9ba717f0563f6a2f"
+  integrity sha512-WgObtV5/zFSIW/eg44kvU7yljjitXYo3xX9oPmaapnL7zz6vKbQtacINn2xWqAa0Brt3iUfP8p1562QHFc7Gag==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-ellipse@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-ellipse/-/react-amap-ellipse-6.0.4.tgz#98d451b0de60f5c8fcf9406e90c2f7c4f29a2763"
+  integrity sha512-mfNNkdD6l+ZvQkS9HjlX2+qt0ef4JRfyeGQgLFq7OmHjeeiKwujFD/cwT65qFQFn2B35rhBwV0x/6n1v0pJ8eA==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-geolocation@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-geolocation/-/react-amap-geolocation-6.0.4.tgz#62f091585af1dd33dfe92523180563b2cada22c6"
+  integrity sha512-V1MdDe3Y5cgYeYRvfluTSzUqiLWIlBeCdJ0ZljG3E7l/qlZZ3V8jLDxSlEx7kDJ1/qIB/ZZywuNLtlfMrKy+Jw==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+
+"@uiw/react-amap-hawk-eye-control@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-hawk-eye-control/-/react-amap-hawk-eye-control-6.0.4.tgz#5f6c0a15fc3172cf7da2fdd8488bd94674b81d7a"
+  integrity sha512-bgLZRneMSXWr9G/FUw4e6oRDMwgkCNioKbyPhWoFfcSUSllv9T47ZFdjznqeJataNaDt8FvRcpPXmm95ys5QRQ==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-info-window@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-info-window/-/react-amap-info-window-6.0.4.tgz#d95f7a1ef6ed8f78ac75312b0b91b78871321557"
+  integrity sha512-UPPHwhjSu9sgGJwyN1Jp0NNRkPhB74888JRuiBJVVH/I5icdmdvlueSE+B+zRRdoVjyzbug3zOqhrACGU6lGFQ==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-label-marker@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-label-marker/-/react-amap-label-marker-6.0.4.tgz#c136e65e609d5df3d4b9c6818b1260a1c1ea0be3"
+  integrity sha512-gjP1WI+MWyTQhDPOfmy3DRNgsDYntYiMduJdU7Hi+N9vvhJEIubSreegwibMSTW4LgKL0jMEMm8iI2Aykxx2pA==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-map-type-control@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-map-type-control/-/react-amap-map-type-control-6.0.4.tgz#07f5dfa66abf00ca0df1ee43da4b53f2c4ea4d08"
+  integrity sha512-UcWMKLuAYAY3h9+W2k75z1ISWWqelf9C8VbWaqXCs/4mS4sxLZkPj4LIrkQgzKl6NzQSp0FOPrMBQxbr1VUurg==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-map@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-map/-/react-amap-map-6.0.4.tgz#fef9cfcb1600089bfc2e32d296e6ea803e8463a0"
+  integrity sha512-3iw/0964GHTM8s6KBdYo5PNnjbJyxYd0sMWuLFFmkPKEvirxgTJxRFkEHbrf4edU47Lk8GylEg8f5pi3xu3kRA==
+  dependencies:
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-marker@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-marker/-/react-amap-marker-6.0.4.tgz#a53f26d5d0b3275ef705bc95dad28d6469c98706"
+  integrity sha512-/UGExOtbvdOXib+LT9nBAC8aerXDLC1GeqLJEJj6jXXD4Nw6OjowQgh9XOLO2SbSB05zytO5Amkf4wDWo9zlfw==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-mass-marks@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-mass-marks/-/react-amap-mass-marks-6.0.4.tgz#5bea2d5335fddf6971f3bf23cefd880519532bc8"
+  integrity sha512-UL9FdlEjGTUS5+AUTVFOWgoY1PkDEGLNRiq5Q5QPVhQlMQlESuCvHAcAGrMZp9Smn6xT3NmS3FSDLJBRfCkRtw==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-mouse-tool@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-mouse-tool/-/react-amap-mouse-tool-6.0.4.tgz#a246e878401922f6cf992507b025247b75652b0e"
+  integrity sha512-MzGyEOskRrFrOHlr8jvSX3Qnd1DwxkKEWl3OnFO6ZnrpQSnyeDkZSqUwx1KbyD6lZb4+6RKTxZ+ViW2UutFvYg==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-poly-editor@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-poly-editor/-/react-amap-poly-editor-6.0.4.tgz#15d2a5f8014d9020bd4a10e46e9f606fa02b7837"
+  integrity sha512-YIVnicawZe9EyN4jDPiKA3rUzmXX6wFxeOoUd5yArnKTVGWtsNA39kJ4Qc3SXL6WClSMwhRK3lRwuDRcohBn6w==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-polygon" "6.0.4"
+    "@uiw/react-amap-polyline" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-polygon-editor@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-polygon-editor/-/react-amap-polygon-editor-6.0.4.tgz#2be07250ca367ea3f0aa67857be60cd874dd3431"
+  integrity sha512-E5lL7FA87u0MBbEYUwNptc5gni6MrCFet8S1VOIfW3x02WJ4MIdyQdOwEJUrKz2GBOuZibezeQYZS9rN6TX2UQ==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-polygon" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-polygon@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-polygon/-/react-amap-polygon-6.0.4.tgz#99a29eae28e885b12fae6daaa3dc8e34177aaab4"
+  integrity sha512-uqK+DxcONWOqaZGpqTZD1PpEBrZYkyaTziBQBA+Rf0//TPWnMPv8zbAfxLGA7I9+eg9jPYqglweYKYQsLqEXLA==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-polyline-editor@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-polyline-editor/-/react-amap-polyline-editor-6.0.4.tgz#ab2206ec7c19cd6746a3c1f09a75495cc4ec6fde"
+  integrity sha512-mtpLFY7t6fx/XoEl4WyayuSf67hQ32oYs/vGHQNDw8Ntc92I2HQ7azeNKsboAqhQSlgBOvTLNqHEgbsnrprnTQ==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-polyline" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-polyline@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-polyline/-/react-amap-polyline-6.0.4.tgz#f1d638cbc49f6377ff495bfde97429d847875683"
+  integrity sha512-9TRbdzqEmTfIt0dVpJHbJt1CaX7G47OPFL4BhT2T+pIxPZ8SWMXHh4fn0HT3U2j6UyG3+RlgtSIJrJXob+Enng==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-rectangle@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-rectangle/-/react-amap-rectangle-6.0.4.tgz#4aac8e24870bd91104f7183912cd857f2b3793b0"
+  integrity sha512-HKXtPKlQOIg4lQMtQqR+2uTuX414PKl7x03luCYcToKOTkYamMJRX0qMyny8LagiB6N9UUjDtXraRW5y5bXSwQ==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-require-script@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-require-script/-/react-amap-require-script-6.0.4.tgz#def6c163591481ca6b364d441b9991f3b9108e41"
+  integrity sha512-vAwrMv0uvNqHT4BsvklMdXAEJTgx8PnGxyxt9vquZY3XHPyOgJbEJurjP2XXIXw7HlhslWyNspSih7r6gLVY6g==
+  dependencies:
+    "@uiw/react-amap-types" "6.0.4"
+
+"@uiw/react-amap-scale-control@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-scale-control/-/react-amap-scale-control-6.0.4.tgz#92e823a6cafcc1adb4a62a587ad9f5a8ab729617"
+  integrity sha512-qRMBNHd0ZlmQoULoKbP5tMqnYiUeT15gjjE5ow98POxppzEzfovaaqxvZig1YQWZhEbFjOHafV7+f2R+GtsY4g==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-text@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-text/-/react-amap-text-6.0.4.tgz#5d6ea77be0d6a5e11166197696f65714c2efc922"
+  integrity sha512-Lfxeu99Bhx7xDYMz7nA7W/bFSuqz5QsYpOhS6mQNxwrShPRALN4H6kIgUFIJWX6w96mHe+j6hckK6pJpINTK6A==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-tile-layer@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-tile-layer/-/react-amap-tile-layer-6.0.4.tgz#da997011c5e039041701e8c972dac70441627de2"
+  integrity sha512-q+Nz5KXx0ws1ZF7YwZBpXAS1qLb8uPaHIyIdgd+EkOnBXas65b51bL1LRZuG2v23WxSG+y29jFuwneYjdrL44g==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-tool-bar-control@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-tool-bar-control/-/react-amap-tool-bar-control-6.0.4.tgz#8b875762ce1a572de2981f5fa76d7342e4281cc6"
+  integrity sha512-TsnMwA+tyeJ1qbX0+cG00cMykwqUi3WzgWxO+Grg1bE9N8NZfVLYOXOLqZi0JyB3Bu2alh7YyJ0HMt9Lym3KuQ==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap-types@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-types/-/react-amap-types-6.0.4.tgz#f59482f0e6952431bc0e9f6606305bbe48e161aa"
+  integrity sha512-Ztg33mCL3hmzdUiv6IXih0VUAS6ZDkp5/axGUQO17xo59Jm/w1VjfoAlD4MO5GNgC9wYjCvxsXC5SUMQ3YWZjw==
+
+"@uiw/react-amap-utils@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-utils/-/react-amap-utils-6.0.4.tgz#2183e0914792c7430d2df20f57497735df6ed036"
+  integrity sha512-XkKldM7oNgWxaMzg0zM80hhkSvQX9opYQVkLtt9VZuWiHRdha76d2QYsHXlG86MAyaMpG9dHc3g/zLXXlUfLug==
+  dependencies:
+    "@uiw/react-amap-types" "6.0.4"
+
+"@uiw/react-amap-weather@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap-weather/-/react-amap-weather-6.0.4.tgz#635b1d521ae466c24e670894f59da8791fd9b6c8"
+  integrity sha512-x6a+usJ2SGvIHeJZOO+0B2AJmiMy07qvPBnT5PVpnD59e5e3vt5MfnfLU+NL2pwogSbc/EPnNhkI7ELcNhR5gg==
+  dependencies:
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+
+"@uiw/react-amap@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.npmmirror.com/@uiw/react-amap/-/react-amap-6.0.4.tgz#f1239e50fd3b99812798356815923a5d542d720c"
+  integrity sha512-0shHNCrLMgDmRNoc+e2eZaSrGP7CFnow77WZ45vPuWJxznF2N3L0ubV+jqEstuaE1ZKvPdCo50iYhQ4AfM9z8w==
+  dependencies:
+    "@uiw/react-amap-api-loader" "6.0.4"
+    "@uiw/react-amap-auto-complete" "6.0.4"
+    "@uiw/react-amap-bezier-curve" "6.0.4"
+    "@uiw/react-amap-circle" "6.0.4"
+    "@uiw/react-amap-circle-marker" "6.0.4"
+    "@uiw/react-amap-context-menu" "6.0.4"
+    "@uiw/react-amap-control-bar-control" "6.0.4"
+    "@uiw/react-amap-ellipse" "6.0.4"
+    "@uiw/react-amap-geolocation" "6.0.4"
+    "@uiw/react-amap-hawk-eye-control" "6.0.4"
+    "@uiw/react-amap-info-window" "6.0.4"
+    "@uiw/react-amap-label-marker" "6.0.4"
+    "@uiw/react-amap-map" "6.0.4"
+    "@uiw/react-amap-map-type-control" "6.0.4"
+    "@uiw/react-amap-marker" "6.0.4"
+    "@uiw/react-amap-mass-marks" "6.0.4"
+    "@uiw/react-amap-mouse-tool" "6.0.4"
+    "@uiw/react-amap-poly-editor" "6.0.4"
+    "@uiw/react-amap-polygon" "6.0.4"
+    "@uiw/react-amap-polygon-editor" "6.0.4"
+    "@uiw/react-amap-polyline" "6.0.4"
+    "@uiw/react-amap-polyline-editor" "6.0.4"
+    "@uiw/react-amap-rectangle" "6.0.4"
+    "@uiw/react-amap-require-script" "6.0.4"
+    "@uiw/react-amap-scale-control" "6.0.4"
+    "@uiw/react-amap-text" "6.0.4"
+    "@uiw/react-amap-tile-layer" "6.0.4"
+    "@uiw/react-amap-tool-bar-control" "6.0.4"
+    "@uiw/react-amap-types" "6.0.4"
+    "@uiw/react-amap-utils" "6.0.4"
+    "@uiw/react-amap-weather" "6.0.4"
+
 "@ungap/structured-clone@^1.2.0":
   version "1.2.0"
   resolved "https://registry.npmmirror.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
@@ -768,6 +1067,11 @@ ajv@^6.12.4:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
+
+amap-jsapi-v2-types@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/amap-jsapi-v2-types/-/amap-jsapi-v2-types-1.3.2.tgz#bdfc61b150a6adf878f03bf97ac354e6b60b7dba"
+  integrity sha512-YxhwMtCLFSt5TEZtOYHimn5VDs28ty5djXvoe6+uKpf7uL532e7deS30RHCyoR5D0nmHA16ZR+xSxKzec6qhnA==
 
 ansi-regex@^5.0.1:
   version "5.0.1"

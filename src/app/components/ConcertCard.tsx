@@ -158,11 +158,6 @@ export default function ConcertCard(props: ConcertCardProps) {
                       </Chip>
                     )
                   }
-                  {/* <Button size='sm' onClick={() => {
-                    console.log('click button');
-                  }} sx={{ ml: 'auto !important' }} >
-                    详情
-                  </Button> */}
                 </Stack>
                 <Typography level="title-md">
                   <Link
@@ -253,7 +248,6 @@ export default function ConcertCard(props: ConcertCardProps) {
             height="100%"
           >
             <Button size='sm' onClick={() => {
-              console.log('click detail button');
               router.push(`/detail/${data.id}`);
             }} >
               详情

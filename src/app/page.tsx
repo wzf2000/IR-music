@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import Script from 'next/script';
 import {
   extendTheme as joyExtendTheme,
   CssVarsProvider as JoyCssVarsProvider,
@@ -19,12 +18,18 @@ import HeaderSection from '@/app/components/HeaderSection';
 import Search from '@/app/components/Search';
 import Filters from '@/app/components/Filters';
 import Pagination from '@/app/components/Pagination';
-import MapComponent from '@/app/components/MapContainer';
+// import MapContainer from '@/app/components/MapContainer';
+import NoSSR from '@/app/components/NoSSR';
 
 import { search } from '@/app/utils/network';
 import { parse } from '@/app/utils/parse';
 import { sortByOrder, filterByDate, filterByPrice, filterByCity } from '@/app/utils/process';
 import { SearchResult, CityType } from '@/app/utils/types';
+import dynamic from 'next/dynamic';
+
+const MapContainer = dynamic(() => import('@/app/components/MapContainer'), {
+  ssr: false
+});
 
 const joyTheme = joyExtendTheme();
 
@@ -130,7 +135,6 @@ export default function ConcertDashboard() {
     <JoyCssVarsProvider theme={{ [JOY_THEME_ID]: joyTheme }} disableTransitionOnChange>
     <MaterialCssVarsProvider>
       <CssBaseline enableColorScheme />
-      <Script src="https://webapi.amap.com/maps?v=1.4.15&key=c9020fcf56e3d78809895825c68f439e&callback=init"></Script>
       <CssBaseline />
       <NavBar title="Music Search" handleClickIcon={() => {
         console.log('Do nothing');
@@ -171,7 +175,9 @@ export default function ConcertDashboard() {
             backgroundSize: 'cover',
           }}
         >
-          <MapComponent address={address} city={city} lng={lng} lat={lat} />
+          <NoSSR>
+            <MapContainer address={address} city={city} lng={lng} lat={lat} />
+          </NoSSR>
         </Box>
         <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
           <Filters
