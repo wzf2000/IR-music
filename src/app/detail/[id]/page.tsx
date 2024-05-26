@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
+
 import {
   extendTheme as joyExtendTheme,
   CssVarsProvider as JoyCssVarsProvider,
@@ -20,21 +21,29 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import Drawer from "@mui/material/Drawer";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
+import ConcertCard from '@/app/components/ConcertCard';
 import NavBar from "@/app/components/NavBar";
 
-import { document } from "@/app/utils/network";
-import { parseDetail } from "@/app/utils/parse";
-import { DetailResult } from "@/app/utils/types";
+import { document, similar } from "@/app/utils/network";
+import { parseDetail, parse } from "@/app/utils/parse";
+import { DetailResult, SearchResult } from "@/app/utils/types";
 
 const joyTheme = joyExtendTheme();
 
 export default function ConcertDetail({ params }: { params: { id: string } }) {
   const [detailData, setDetailData] = useState<DetailResult | null>(null);
+  const [similarResult, setSimilarResult] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
+  const [similarLoading, setSimilarLoading] = useState(true);
   const [openId, setOpenId] = useState<number | null>(null);
+  const drawerWidth = 15;
 
   const router = useRouter();
   useEffect(() => {
@@ -47,7 +56,44 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
     }).finally(() => {
       setLoading(false);
     });
+    similar(params.id).then((response) => {
+      if (response) {
+        setSimilarResult(parse(response.data));
+      }
+    }).catch((error) => {
+      console.error("Error:", error);
+    }).finally(() => {
+      setSimilarLoading(false);
+    });
   }, [router, params.id]);
+  const tableContent = () => (
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: "calc(" + drawerWidth.toString() + " * var(--joy-spacing))",
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: "calc(" + drawerWidth.toString() + " * var(--joy-spacing))",
+          boxSizing: 'border-box',
+        },
+      }}
+    >
+      <List>
+        <ListItem sx={{ justifyContent: 'center' }}>
+          <Typography level="title-lg">
+            目录
+          </Typography>
+        </ListItem>
+        {['基本信息', '演出介绍', '相似演出'].map((text) => (
+          <a href={"#" + text} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <ListItem key={text} sx={{ justifyContent: 'center' }}>
+            <ListItemText sx={{ textAlign: 'center' }}>{text}</ListItemText>
+          </ListItem>
+          </a>
+        ))}
+      </List>
+    </Drawer>
+  );
   return (
     <JoyCssVarsProvider
       theme={{ [JOY_THEME_ID]: joyTheme }}
@@ -55,18 +101,20 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
     >
     <MaterialCssVarsProvider>
       <CssBaseline enableColorScheme />
-      <NavBar title="Music Search" handleClickIcon={() => {
-        router.push("/");
-      }} />
+      <div style={{ display: 'flex' }}>
+      {detailData !== null && tableContent()}
       <Box
         component="main"
         sx={{
-          height: "calc(100vh - 55px)", // 55px is the height of the NavBar
+          flexGrow: 1,
           display: "grid",
           gridTemplateColumns: { xs: "auto", md: "100%" },
           gridTemplateRows: "auto 1fr auto",
         }}
       >
+      <NavBar title="Music Search" handleClickIcon={() => {
+        router.push("/");
+      }} />
       <Stack
         alignItems="center"
         sx={{
@@ -117,10 +165,14 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                width="65%"
+                width="70%"
               >
+              <div id="基本信息" style={{
+                margin: 0,
+                scrollMarginTop: "20px",
+              }}></div>
               <Stack
-                spacing={5}
+                spacing={3}
                 alignItems="center"
                 width="100%"
                 sx={{
@@ -144,6 +196,7 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                     sx={{
                       minWidth: { sm: 120, md: 160 },
                       '--AspectRatio-maxHeight': { xs: '160px', sm: '9999px' },
+                      borderRadius: 'md',
                     }}
                   >
                     <Image fill={true} src={detailData.projectImgs[0]} alt={detailData.title} onClick={() => setOpenId(0)} />
@@ -334,8 +387,12 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                   </Stack>
                 </Stack>
               </Stack>
+              <div id="演出介绍" style={{
+                margin: 0,
+                scrollMarginTop: "20px",
+              }}></div>
               <Stack
-                spacing={5}
+                spacing={2}
                 alignItems="center"
                 sx={{
                   backgroundColor: 'background.surface',
@@ -350,7 +407,12 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                 </Typography>
                 {
                   detailData.projectImgs.length > 1 && (
-                    <div>
+                    <div style={{
+                      border: '2px solid #aaaaaa',
+                      borderRadius: '10px',
+                      paddingLeft: '20px',
+                      paddingRight: '20px',
+                    }}>
                       <ImageList sx={{ width: "100%", height: 500 }} variant="woven" cols={3} gap={8}>
                         {detailData.projectImgs.slice(1).map((item, ind) => (
                           <ImageListItem key={item}>
@@ -360,6 +422,9 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                               alt={ind.toString()}
                               loading="lazy"
                               onClick={() => setOpenId(ind + 1)}
+                              style={{
+                                borderRadius: '10px',
+                              }}
                             />
                           </ImageListItem>
                         ))}
@@ -410,12 +475,56 @@ export default function ConcertDetail({ params }: { params: { id: string } }) {
                   )
                 }
               </Stack>
+              <div id="相似演出" style={{
+                margin: 0,
+                scrollMarginTop: "25px",
+              }}></div>
+              <Stack spacing={1} sx={{ overflow: 'auto' }} alignItems="center">
+                <Typography level="body-lg" fontWeight={700} fontSize={30}>
+                  相似演出
+                </Typography>
+              </Stack>
+              <Stack spacing={2} sx={{ overflow: 'auto' }}>
+                {
+                  similarResult.length === 0 ? (
+                    similarLoading ? (
+                      <p>加载相似演出中...</p>
+                    ) : (
+                      <p>未找到相似演出</p>
+                    )
+                  ) : (
+                    similarResult.filter((result) => {
+                      console.log(result);
+                      for (const tour of detailData.tours) {
+                        if (tour.itemId === result.id) {
+                          return false;
+                        }
+                      }
+                      return true;
+                    }).map((val, ind) => {
+                      const { title, category } = val;
+                      return (
+                        <ConcertCard
+                          key={ind}
+                          data={val}
+                          title={title}
+                          category={category}
+                          handleOnCardClick={() => {
+                            router.push(`/detail/${val.id}`);
+                          }}
+                        />
+                      );
+                    })
+                  )
+                }
+              </Stack>
               </Stack>
             )
           )
         }
         </Stack>
       </Box>
+      </div>
     </MaterialCssVarsProvider>
     </JoyCssVarsProvider>
   );

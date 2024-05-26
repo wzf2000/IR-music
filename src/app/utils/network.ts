@@ -56,3 +56,28 @@ export const document = async (id: string) => {
     const response = await request(esNetwork, 'GET', `/music_demo/_doc/${id}`);
     return response;
 }
+
+export const similar = async (id: string, size: number | null = null) => {
+    const query_body = {
+        "more_like_this": {
+            "fields": [ "project_name", "project_info", "artists", "city_name" ],
+            "like": [
+                {
+                    "_index": "music_demo",
+                    "_id": id,
+                },
+            ],
+            "min_term_freq": 1,
+            "max_query_terms": 12
+        },
+    };
+    const data = size == null ? {
+        "size": 10,
+        "query": query_body,
+    } : {
+        "size": size,
+        "query": query_body,
+    };
+    const response = await request(esNetwork, 'POST', `/music_demo/_search`, data);
+    return response;
+}
