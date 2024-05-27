@@ -95,7 +95,8 @@ export const filterByCity = (results: SearchResult[], city: CityType) => {
     return results;
   }
   return results.filter((result) => {
-    return result.city === city.label;
+    if (!result.city) return false;
+    return city.label.includes(result.city);
   });
 }
 
